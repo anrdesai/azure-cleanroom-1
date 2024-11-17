@@ -1,0 +1,33 @@
+﻿@model PolicyViewModel
+@{
+    ViewData["Title"] = "Policy Details";
+}
+
+<h2>Policy Details</h2>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Policy</th>
+            <th>Open Proposals</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <pre>@Model.Policy</pre>
+            </td>
+            <td>
+                @if (@Model.ProposalIds != null)
+                {
+                    @foreach (var proposalId in @Model.ProposalIds)
+                    {
+                        <p>
+                            <a asp-controller="Proposals"
+                               asp-action="Detail" asp-route-proposalId="@proposalId">@proposalId</a>
+                        </p>
+                    }
+                }
+            </td>
+        </tr>
+    </tbody>
+</table>

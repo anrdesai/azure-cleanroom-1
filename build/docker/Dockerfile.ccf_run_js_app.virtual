@@ -1,0 +1,9 @@
+FROM ghcr.io/microsoft/ccf/app/run-js/virtual:ccf-6.0.0-dev2
+
+COPY --chmod=755 /src/ccf/ccf-provider-common/scripts/node/bootstrap.sh /app/
+
+WORKDIR /app/
+
+EXPOSE 8080/tcp
+
+CMD ["/bin/bash", "/app/bootstrap.sh"]

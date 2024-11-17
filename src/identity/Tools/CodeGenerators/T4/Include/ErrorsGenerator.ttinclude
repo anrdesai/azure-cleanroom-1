@@ -1,0 +1,175 @@
+<#
+// T4 templates are very sensitive to spacing. The overall layout typically looks odd, if the
+// generated code is to be properly indented. Thus, nearly every source indent and blank line here
+// (or lack thereof) are significant. Be aware that trailing whitespace in a line that ends a
+// control block can cause a blank line to appear before the next line.
+#>
+<#@
+ include file="Xml.ttinclude" once="true"#><#@
+ include file="Resx.ttinclude" once="true"#><#@
+ include file="Emitters.ttinclude" once="true"#><#@
+ parameter type="System.String" name="T4Prefix" #><#@
+ parameter type="System.String" name="T4XmlFolder" #><#@
+ parameter type="System.String" name="RootNamespace" #><#+
+
+void GenerateErrors(string t4Prefix = default, string rootNamespace = default, string t4XmlFolder = default)
+{
+    t4Prefix = t4Prefix ?? T4Prefix ?? Path.GetFileNameWithoutExtension(this.Host.TemplateFile);
+    t4XmlFolder = t4XmlFolder ?? T4XmlFolder ?? this.Host.ResolvePath("Errors");
+    rootNamespace = rootNamespace ?? RootNamespace ?? "Telemetry";
+
+    string className = $"{t4Prefix}Exception";
+    string enumName = $"{t4Prefix}ErrorCode";
+    string errorNamespace = $"{rootNamespace}.Errors";
+    string resxFolder = this.Host.ResolvePath("Resources");
+    string resxFilePath = System.IO.Path.Combine(resxFolder, "Errors.en.resx");
+    string resourceFileName = $"{rootNamespace}.Resources.Errors";
+
+    GenerateErrors(className, enumName, errorNamespace, t4XmlFolder, resxFilePath, resourceFileName);
+}
+
+void GenerateErrors(
+    string className,
+    string enumName,
+    string namespaceName,
+    string xmlFolder,
+    string resxFilePath,
+    string resourceFileName)
+{
+    var resourceStringElements = new List<string> { "Message", "PossibleCauses", "RecommendedAction" };
+    var additionalElements = new List<string> { "Severity", "HttpStatusCode" };
+    var errorsToWrite = _XmlNode.Enumerate(
+        xmlFolder,
+        "Error",
+        "EnumName",
+        "ErrorCode",
+        "Tags",
+        resourceStringElements,
+        additionalElements);
+
+    // Generate .resx file.
+    _ResXWriter.GenerateResxFile(
+        errorsToWrite,
+        resourceStringElements,
+        "Error",
+        resxFilePath);
+#>
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+using System.Globalization;
+using System.Resources;
+using System.Text;
+using System.Text.Json.Serialization;
+using System.Text.RegularExpressions;
+
+// Specify that the fallback language is also inside a satellite assembly.
+[assembly: NeutralResourcesLanguage("en", UltimateResourceFallbackLocation.Satellite)]
+
+namespace <#=namespaceName#>
+{
+<#+
+    // Emit enumeration of display name to code.
+    EmitEnum(errorsToWrite, enumName);
+#>
+
+    /// <summary>
+    /// Class definition.
+    /// </summary>
+    public partial class <#=className#> : Exception
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="<#=className#>"/> class.
+        /// This constructor is used to create an instance of <see cref="<#=className#>"/>
+        /// with an inner exception.
+        /// </summary>
+        /// <param name="exception">Instance of <see cref="<#=className#>"/> from which
+        /// this exception is to be initialized.</param>
+        /// <param name="innerException">Inner exception to be associated with this instance.
+        /// </param>
+        public <#=className#>(
+            <#=className#> exception,
+            Exception innerException)
+            : base(string.Empty, innerException)
+        {
+            if (exception != null)
+            {
+                this.Id = exception.Id;
+                this.Parameters = exception.Parameters;
+                this.Initialize();
+            }
+        }
+
+        /// <summary>
+        /// Gets the ID associated with the error.
+        /// </summary>
+        [JsonInclude]
+        public <#=enumName#> Id { get; private set; }
+
+        /// <summary>
+        /// Gets the parameters needed to form resource strings.
+        /// </summary>
+        [JsonInclude]
+        public Dictionary<string, string> Parameters { get; private set; }
+
+        /// <summary>
+        /// Gets the tags associated with the error.
+        /// </summary>
+        [JsonIgnore]
+        public Dictionary<string, string> Tags { get; private set; }
+
+        /// <summary>
+        /// Gets the error code associated with the error.
+        /// </summary>
+        [JsonIgnore]
+        public <#=enumName#> ErrorCode => this.Id;
+
+        /// <summary>
+        /// Gets the error message. Use GetMessage if you want to specify culture.
+        /// </summary>
+        [JsonIgnore]
+        public override string Message => this.GetMessageSafe();
+
+        /// <summary>
+        /// Perform any custom initialization of the class properties here.
+        /// </summary>
+        internal void Initialize()
+        {
+            this.Data.Add("ErrorCode", this.Id);
+            this.Data.Add("Level", <#=enumName#>SeverityMap[this.Id]);
+        }
+    }
+
+<#+
+    // Emit partial class with parameterized pseudo constructors.
+    EmitConstructors(errorsToWrite, className, enumName);
+#>
+
+<#+
+    // Emit an empty line for aesthetics of the generated file.
+    WriteLine("");
+
+    // Emit partial class with resource string accessors.
+    EmitResourceStringAccessors(
+        className,
+        resourceStringElements,
+        "Error",
+        resourceFileName);
+
+    // Emit partial class with accessors for each additional element.
+    foreach (var item in additionalElements)
+    {
+        // Emit an empty line for aesthetics of the generated file.
+        WriteLine("");
+
+        EmitElementAccessor(
+            errorsToWrite,
+            className,
+            enumName,
+            item);
+    }
+#>
+}
+<#+
+}
+#>

@@ -1,0 +1,22 @@
+﻿@model WorkspaceConfigurationViewModel
+
+<form asp-action="Configure" enctype="multipart/form-data">
+    <div class="mb-3">
+        <label for="ccfEndpoint" class="form-label">CcfEndpoint</label>
+        <input type="text" class="form-control" id="CcfEndpoint" required="true" asp-for="CcfEndpoint">
+    </div>
+    <div class="mb-3">
+        <label for="formFile" class="form-label">Signing Cert PEM File</label>
+        <input class="form-control" type="file" id="SigningCertPemFile" required="true" asp-for="SigningCertPemFile">
+    </div>
+    <div class="mb-3">
+        <label for="formFile" class="form-label">Signing Private Key PEM File</label>
+        <input class="form-control" type="file" id="SigningKeyPemFile" required="true" asp-for="SigningKeyPemFile">
+    </div>
+    <div class="mb-3">
+        <label for="formFile" class="form-label">Service Cert PEM File</label>
+        <input class="form-control" type="file" id="ServiceCertPemFile" asp-for="ServiceCertPemFile">
+        <div id="pemHelp" class="form-text">Can skip for a confidential-ledger.azure.com endpoint.</div>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>

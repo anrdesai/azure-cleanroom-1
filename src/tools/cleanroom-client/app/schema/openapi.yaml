@@ -1,0 +1,1176 @@
+openapi: 3.1.0
+info:
+  title: FastAPI
+  description: Cleanroom Client API
+  version: 0.1.0
+paths:
+  /:
+    get:
+      summary: Read Root
+      operationId: read_root__get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /login:
+    post:
+      summary: Login
+      operationId: login_login_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /add-secretstore:
+    post:
+      summary: Add Secretstore
+      operationId: add_secretstore_add_secretstore_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddSecretStoreRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /add-datastore:
+    post:
+      summary: Add Datastore
+      operationId: add_datastore_add_datastore_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddDatastoreRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /upload-datastore:
+    post:
+      summary: Upload Datastore
+      operationId: upload_datastore_upload_datastore_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UploadDataStoreRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /add-identity-az-federated:
+    post:
+      summary: Config Add Identity Az Federated
+      operationId: config_add_identity_az_federated_add_identity_az_federated_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConfigAddIdentityAzFederatedRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /add-identity-az-secret:
+    post:
+      summary: Config Add Identity Az Secret
+      operationId: config_add_identity_az_secret_add_identity_az_secret_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConfigAddIdentityAzSecretBased'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /add-identity-oidc-attested:
+    post:
+      summary: Config Add Identity Oidc Attested
+      operationId: config_add_identity_oidc_attested_add_identity_oidc_attested_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConfigAddIdentityOIDCAttested'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /config/view:
+    post:
+      summary: Config Get
+      operationId: config_get_config_view_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConfigViewRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            text/plain:
+              schema:
+                type: string
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /config/init:
+    post:
+      summary: Config Init
+      operationId: config_init_config_init_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConfigInitRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /config/validate:
+    post:
+      summary: Config Validate
+      operationId: config_validate_config_validate_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConfigValidateRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /config/add-datasource:
+    post:
+      summary: Config Add Datasource
+      operationId: config_add_datasource_config_add_datasource_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConfigAddDatasourceRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /config/add-datasink:
+    post:
+      summary: Config Add Datasink
+      operationId: config_add_datasink_config_add_datasink_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConfigAddDatasinkRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /datastore/download:
+    post:
+      summary: Datastore Download
+      operationId: datastore_download_datastore_download_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DataStoreDownloadRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /logs/download:
+    post:
+      summary: Logs Download
+      operationId: logs_download_logs_download_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LogsDownloadRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /telemetry/download:
+    post:
+      summary: Telemetry Download
+      operationId: telemetry_download_telemetry_download_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TelemetryDownloadRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /config/set-logging:
+    post:
+      summary: Config Set Logging
+      operationId: config_set_logging_config_set_logging_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConfigSetLoggingRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /config/set-telemetry:
+    post:
+      summary: Config Set Telemetry
+      operationId: config_set_telemetry_config_set_telemetry_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConfigSetTelemetryRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /config/add-application:
+    post:
+      summary: Config Add Application
+      operationId: config_add_application_config_add_application_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConfigAddApplicationRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /config/add-application-endpoint:
+    post:
+      summary: Config Add Application Endpoint
+      operationId: config_add_application_endpoint_config_add_application_endpoint_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConfigAddApplicationEndpointRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /config/create-kek:
+    post:
+      summary: Config Create Kek
+      operationId: config_create_kek_config_create_kek_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConfigCreateKekRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /config/wrap-deks:
+    post:
+      summary: Config Wrap Deks
+      operationId: config_wrap_deks_config_wrap_deks_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConfigWrapDeksRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /config/wrap-secret:
+    post:
+      summary: Config Wrap Secret
+      operationId: config_wrap_secret_config_wrap_secret_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConfigWrapSecretRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /config/disable-sandbox:
+    post:
+      summary: Config Disable Sandbox
+      operationId: config_disable_sandbox_config_disable_sandbox_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConfigDisableSandboxRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /config/enable-sandbox:
+    post:
+      summary: Config Enable Sandbox
+      operationId: config_enable_sandbox_config_enable_sandbox_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConfigEnableSandboxRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    AddDatastoreRequest:
+      properties:
+        configName:
+          type: string
+          title: Configname
+        name:
+          type: string
+          title: Name
+        secretStore:
+          type: string
+          title: Secretstore
+        secretStoreConfig:
+          type: string
+          title: Secretstoreconfig
+        encryptionMode:
+          $ref: '#/components/schemas/EncryptionMode'
+        backingStoreType:
+          $ref: '#/components/schemas/BackingStoreType'
+        backingStoreId:
+          type: string
+          title: Backingstoreid
+        containerName:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Containername
+      type: object
+      required:
+      - configName
+      - name
+      - secretStore
+      - secretStoreConfig
+      - encryptionMode
+      - backingStoreType
+      - backingStoreId
+      title: AddDatastoreRequest
+    AddSecretStoreRequest:
+      properties:
+        name:
+          type: string
+          title: Name
+        configName:
+          type: string
+          title: Configname
+        backingStoreType:
+          $ref: '#/components/schemas/SecretStoreType'
+        backingStoreId:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Backingstoreid
+        backingStorePath:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Backingstorepath
+        attestationEndpoint:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Attestationendpoint
+      type: object
+      required:
+      - name
+      - configName
+      - backingStoreType
+      title: AddSecretStoreRequest
+    BackingStoreType:
+      type: string
+      enum:
+      - Azure_BlobStorage
+      - Azure_Onelake
+      title: BackingStoreType
+    ConfigAddApplicationEndpointRequest:
+      properties:
+        configName:
+          type: string
+          title: Configname
+        applicationName:
+          type: string
+          title: Applicationname
+        port:
+          type: integer
+          title: Port
+        policyBundleUrl:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Policybundleurl
+      type: object
+      required:
+      - configName
+      - applicationName
+      - port
+      title: ConfigAddApplicationEndpointRequest
+    ConfigAddApplicationRequest:
+      properties:
+        name:
+          type: string
+          title: Name
+        image:
+          type: string
+          title: Image
+        command:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Command
+        mounts:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Mounts
+        environmentVariables:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Environmentvariables
+        cpu:
+          type: string
+          title: Cpu
+        memory:
+          type: string
+          title: Memory
+        configName:
+          type: string
+          title: Configname
+      type: object
+      required:
+      - name
+      - image
+      - cpu
+      - memory
+      - configName
+      title: ConfigAddApplicationRequest
+    ConfigAddDatasinkRequest:
+      properties:
+        identity:
+          type: string
+          title: Identity
+        configName:
+          type: string
+          title: Configname
+        datastoreName:
+          type: string
+          title: Datastorename
+        datastoreConfigName:
+          type: string
+          title: Datastoreconfigname
+        secretStoreConfig:
+          type: string
+          title: Secretstoreconfig
+        dekSecretStore:
+          type: string
+          title: Deksecretstore
+        kekSecretStore:
+          type: string
+          title: Keksecretstore
+      type: object
+      required:
+      - identity
+      - configName
+      - datastoreName
+      - datastoreConfigName
+      - secretStoreConfig
+      - dekSecretStore
+      - kekSecretStore
+      title: ConfigAddDatasinkRequest
+    ConfigAddDatasourceRequest:
+      properties:
+        identity:
+          type: string
+          title: Identity
+        configName:
+          type: string
+          title: Configname
+        datastoreName:
+          type: string
+          title: Datastorename
+        datastoreConfigName:
+          type: string
+          title: Datastoreconfigname
+        secretStoreConfig:
+          type: string
+          title: Secretstoreconfig
+        dekSecretStore:
+          type: string
+          title: Deksecretstore
+        kekSecretStore:
+          type: string
+          title: Keksecretstore
+      type: object
+      required:
+      - identity
+      - configName
+      - datastoreName
+      - datastoreConfigName
+      - secretStoreConfig
+      - dekSecretStore
+      - kekSecretStore
+      title: ConfigAddDatasourceRequest
+    ConfigAddIdentityAzFederatedRequest:
+      properties:
+        configName:
+          type: string
+          title: Configname
+        name:
+          type: string
+          title: Name
+        clientId:
+          type: string
+          title: Clientid
+        tenantId:
+          type: string
+          title: Tenantid
+        backingIdentity:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Backingidentity
+      type: object
+      required:
+      - configName
+      - name
+      - clientId
+      - tenantId
+      title: ConfigAddIdentityAzFederatedRequest
+    ConfigAddIdentityAzSecretBased:
+      properties:
+        configName:
+          type: string
+          title: Configname
+        name:
+          type: string
+          title: Name
+        clientId:
+          type: string
+          title: Clientid
+        tenantId:
+          type: string
+          title: Tenantid
+        secretName:
+          type: string
+          title: Secretname
+        secretStoreUrl:
+          type: string
+          title: Secretstoreurl
+        backingIdentity:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Backingidentity
+      type: object
+      required:
+      - configName
+      - name
+      - clientId
+      - tenantId
+      - secretName
+      - secretStoreUrl
+      title: ConfigAddIdentityAzSecretBased
+    ConfigAddIdentityOIDCAttested:
+      properties:
+        configName:
+          type: string
+          title: Configname
+        name:
+          type: string
+          title: Name
+        clientId:
+          type: string
+          title: Clientid
+        tenantId:
+          type: string
+          title: Tenantid
+        issuerUrl:
+          type: string
+          title: Issuerurl
+      type: object
+      required:
+      - configName
+      - name
+      - clientId
+      - tenantId
+      - issuerUrl
+      title: ConfigAddIdentityOIDCAttested
+    ConfigCreateKekRequest:
+      properties:
+        contractId:
+          type: string
+          title: Contractid
+        cleanroomPolicy:
+          type: string
+          title: Cleanroompolicy
+        configName:
+          type: string
+          title: Configname
+        secretStoreConfig:
+          type: string
+          title: Secretstoreconfig
+      type: object
+      required:
+      - contractId
+      - cleanroomPolicy
+      - configName
+      - secretStoreConfig
+      title: ConfigCreateKekRequest
+    ConfigDisableSandboxRequest:
+      properties:
+        configName:
+          type: string
+          title: Configname
+      type: object
+      required:
+      - configName
+      title: ConfigDisableSandboxRequest
+    ConfigEnableSandboxRequest:
+      properties:
+        configName:
+          type: string
+          title: Configname
+      type: object
+      required:
+      - configName
+      title: ConfigEnableSandboxRequest
+    ConfigInitRequest:
+      properties:
+        configName:
+          type: string
+          title: Configname
+      type: object
+      required:
+      - configName
+      title: ConfigInitRequest
+    ConfigSetLoggingRequest:
+      properties:
+        storageAccountId:
+          type: string
+          title: Storageaccountid
+        identity:
+          type: string
+          title: Identity
+        configName:
+          type: string
+          title: Configname
+        datastoreConfigName:
+          type: string
+          title: Datastoreconfigname
+        secretStoreConfig:
+          type: string
+          title: Secretstoreconfig
+        datastoreSecretStore:
+          type: string
+          title: Datastoresecretstore
+        dekSecretStore:
+          type: string
+          title: Deksecretstore
+        kekSecretStore:
+          type: string
+          title: Keksecretstore
+        encryptionMode:
+          $ref: '#/components/schemas/EncryptionMode'
+        containerSuffix:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Containersuffix
+      type: object
+      required:
+      - storageAccountId
+      - identity
+      - configName
+      - datastoreConfigName
+      - secretStoreConfig
+      - datastoreSecretStore
+      - dekSecretStore
+      - kekSecretStore
+      - encryptionMode
+      title: ConfigSetLoggingRequest
+    ConfigSetTelemetryRequest:
+      properties:
+        storageAccountId:
+          type: string
+          title: Storageaccountid
+        identity:
+          type: string
+          title: Identity
+        configName:
+          type: string
+          title: Configname
+        datastoreConfigName:
+          type: string
+          title: Datastoreconfigname
+        secretStoreConfig:
+          type: string
+          title: Secretstoreconfig
+        datastoreSecretStore:
+          type: string
+          title: Datastoresecretstore
+        dekSecretStore:
+          type: string
+          title: Deksecretstore
+        kekSecretStore:
+          type: string
+          title: Keksecretstore
+        encryptionMode:
+          $ref: '#/components/schemas/EncryptionMode'
+        containerSuffix:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Containersuffix
+      type: object
+      required:
+      - storageAccountId
+      - identity
+      - configName
+      - datastoreConfigName
+      - secretStoreConfig
+      - datastoreSecretStore
+      - dekSecretStore
+      - kekSecretStore
+      - encryptionMode
+      title: ConfigSetTelemetryRequest
+    ConfigValidateRequest:
+      properties:
+        configName:
+          type: string
+          title: Configname
+      type: object
+      required:
+      - configName
+      title: ConfigValidateRequest
+    ConfigViewRequest:
+      properties:
+        configName:
+          type: string
+          title: Configname
+        outputFile:
+          type: string
+          title: Outputfile
+        configs:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Configs
+      type: object
+      required:
+      - configName
+      - outputFile
+      title: ConfigViewRequest
+    ConfigWrapDeksRequest:
+      properties:
+        contractId:
+          type: string
+          title: Contractid
+        configName:
+          type: string
+          title: Configname
+        datastoreConfigName:
+          type: string
+          title: Datastoreconfigname
+        secretStoreConfig:
+          type: string
+          title: Secretstoreconfig
+      type: object
+      required:
+      - contractId
+      - configName
+      - datastoreConfigName
+      - secretStoreConfig
+      title: ConfigWrapDeksRequest
+    ConfigWrapSecretRequest:
+      properties:
+        contractId:
+          type: string
+          title: Contractid
+        name:
+          type: string
+          title: Name
+        value:
+          type: string
+          title: Value
+        secretKeyVaultId:
+          type: string
+          title: Secretkeyvaultid
+        keyStore:
+          type: string
+          title: Keystore
+        configName:
+          type: string
+          title: Configname
+      type: object
+      required:
+      - contractId
+      - name
+      - value
+      - secretKeyVaultId
+      - keyStore
+      - configName
+      title: ConfigWrapSecretRequest
+    DataStoreDownloadRequest:
+      properties:
+        name:
+          type: string
+          title: Name
+        targetFolder:
+          type: string
+          title: Targetfolder
+        configName:
+          type: string
+          title: Configname
+      type: object
+      required:
+      - name
+      - targetFolder
+      - configName
+      title: DataStoreDownloadRequest
+    EncryptionMode:
+      type: string
+      enum:
+      - CPK
+      - CSE
+      title: EncryptionMode
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    LoginRequest:
+      properties:
+        loginArgs:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Loginargs
+      type: object
+      title: LoginRequest
+    LogsDownloadRequest:
+      properties:
+        targetFolder:
+          type: string
+          title: Targetfolder
+        configName:
+          type: string
+          title: Configname
+        datastoreConfigName:
+          type: string
+          title: Datastoreconfigname
+      type: object
+      required:
+      - targetFolder
+      - configName
+      - datastoreConfigName
+      title: LogsDownloadRequest
+    SecretStoreType:
+      type: string
+      enum:
+      - Azure_KeyVault
+      - Azure_KeyVault_Managed_HSM
+      - Local_File
+      title: SecretStoreType
+    TelemetryDownloadRequest:
+      properties:
+        targetFolder:
+          type: string
+          title: Targetfolder
+        configName:
+          type: string
+          title: Configname
+        datastoreConfigName:
+          type: string
+          title: Datastoreconfigname
+      type: object
+      required:
+      - targetFolder
+      - configName
+      - datastoreConfigName
+      title: TelemetryDownloadRequest
+    UploadDataStoreRequest:
+      properties:
+        name:
+          type: string
+          title: Name
+        configName:
+          type: string
+          title: Configname
+        src:
+          type: string
+          title: Src
+      type: object
+      required:
+      - name
+      - configName
+      - src
+      title: UploadDataStoreRequest
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError

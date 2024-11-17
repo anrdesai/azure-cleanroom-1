@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<srs:Metrics xmlns:srs="http://schemas.microsoft.com/2012/DisasterRecovery/Metrics.xsd">
+  <!--Role related metrics.-->
+  <Metric>
+    <Name>RoleStart</Name>
+    <LogValueRequired>false</LogValueRequired>
+  </Metric>
+  <Metric>
+    <Name>RoleStop</Name>
+    <LogValueRequired>false</LogValueRequired>
+  </Metric>
+
+  <!--API related metrics.-->
+  <Metric>
+    <Name>RestApiStarted</Name>
+    <LogValueRequired>false</LogValueRequired>
+    <Dimension order="0">
+      <Name>Name</Name>
+    </Dimension>
+    <Dimension order="1">
+      <Name>HttpMethod</Name>
+    </Dimension>
+    <Dimension order="2">
+      <Name>ApiVersion</Name>
+    </Dimension>
+    <Annotation order="0">
+      <Name>webContext</Name>
+    </Annotation>
+  </Metric>
+  <Metric>
+    <Name>RestApiSucceeded</Name>
+    <LogValueRequired>true</LogValueRequired>
+    <Dimension order="0">
+      <Name>Name</Name>
+    </Dimension>
+    <Dimension order="1">
+      <Name>HttpMethod</Name>
+    </Dimension>
+    <Dimension order="2">
+      <Name>ApiVersion</Name>
+    </Dimension>
+    <Annotation order="0">
+      <Name>Url</Name>
+    </Annotation>
+  </Metric>
+  <Metric>
+    <Name>RestApiFailed</Name>
+    <LogValueRequired>true</LogValueRequired>
+    <Dimension order="0">
+      <Name>Name</Name>
+    </Dimension>
+    <Dimension order="1">
+      <Name>ErrorCode</Name>
+    </Dimension>
+    <Dimension order="2">
+      <Name>HttpMethod</Name>
+    </Dimension>
+    <Dimension order="3">
+      <Name>ApiVersion</Name>
+    </Dimension>
+    <Annotation order="0">
+      <Name>Url</Name>
+    </Annotation>
+  </Metric>
+</srs:Metrics>

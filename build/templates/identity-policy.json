@@ -1,0 +1,23 @@
+{
+  "name": "identity-sidecar",
+  "containerImage": "$containerRegistryUrl/identity@$digest",
+  "command": [
+      "dotnet",
+      "Microsoft.Azure.CleanRoomSidecar.Identity.IdentitySidecar.dll"
+  ],
+  "environmentVariables": [
+    {
+      "name": "IdentitySideCarArgs",
+      "value": ".*",
+      "strategy": "re2"
+    },
+    {
+      "name": "OTEL_METRIC_EXPORT_INTERVAL",
+      "value": ".*",
+      "strategy": "re2"
+    }
+  ],
+  "securityContext": {
+      "privileged": "true"
+  }
+}

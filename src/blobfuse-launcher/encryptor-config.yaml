@@ -1,0 +1,24 @@
+allow-other: true
+
+logging:
+  type: base
+  level: log_info
+
+components:
+  - libfuse
+  - block_cache
+  - encryptor
+
+libfuse:
+  attribute-expiration-sec: 120
+  entry-expiration-sec: 120
+  negative-entry-expiration-sec: 240
+
+block_cache:
+  block-size-mb: 
+  path: /tmp/blobfuse_temp
+  parallelism: 128
+
+encryptor:
+  block-size-mb: 
+  encrypted-mount-path: 

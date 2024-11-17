@@ -1,0 +1,17 @@
+{
+  "name": "otel-collector",
+  "containerImage": "$containerRegistryUrl/otel-collector@$digest",
+  "command": [],
+  "environmentVariables": [],
+  "securityContext": {
+    "privileged": "false"
+  },
+  "mounts": [
+    {
+      "name": "telemetrymounts",
+      "mountPath": "/mnt/telemetry",
+      "mountType": "emptyDir",
+      "readOnly": false
+    }
+  ]
+}

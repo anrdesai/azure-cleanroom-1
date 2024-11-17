@@ -1,0 +1,5 @@
+fastapi==0.111.0
+PyYAML
+Requests==2.32.3
+azure-cli
+pydantic==2.7.4

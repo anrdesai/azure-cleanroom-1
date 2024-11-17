@@ -1,0 +1,13 @@
+{
+    "settings": {
+      "orderingRules": {
+        "systemUsingDirectivesFirst": true,
+        "usingDirectivesPlacement": "outsideNamespace"
+      },
+      "documentationRules": {
+        "xmlHeader": false,
+        "copyrightText": "Copyright (c) Microsoft Corporation.\nLicensed under the MIT License."
+      }
+    }
+  }
+  

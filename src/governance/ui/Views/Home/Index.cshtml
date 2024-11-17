@@ -1,0 +1,29 @@
+﻿@model HomeViewModel
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome to the CGS portal</h1>
+    <p>Use navigation bar at the top to begin.</p>
+</div>
+
+@if (Model.UpdatesAvailable)
+{
+    <div class="alert alert-info" role="alert">
+        <strong>Updates available</strong>: Navigate to Settings to see the updates.
+    </div>
+}
+
+@if (!Model.Connected)
+{
+    <div class="alert alert-warning" role="alert">
+        <strong>cgs-client not responding</strong>: Check that the container is running and inspect the container logs.
+    </div>
+}
+else if (!Model.Configured)
+{
+    <div class="alert alert-warning" role="alert">
+        <strong>cgs-client not configured</strong>: Navigate to Settings to configure it or re-deploy the client.
+    </div>
+}

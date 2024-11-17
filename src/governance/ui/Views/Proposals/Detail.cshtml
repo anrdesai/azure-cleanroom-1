@@ -1,0 +1,62 @@
+﻿@model ProposalViewModel
+@{
+    ViewData["Title"] = "Proposal Details";
+}
+
+<h3>Proposal</h3>
+@{
+    if (@Model.IsOpen)
+    {
+        if (!Model.CanVote)
+        {
+            <p><i>@Model.DisableVoteReason</i>
+            @if (@Model.CanWithdraw)
+            {
+                <a asp-controller="Proposals" asp-action="Withdraw" asp-route-proposalId="@Model.ProposalId">Withdraw Proposal</a>
+            }
+            </p>
+        }
+        else
+        {
+            <p>
+                <a asp-controller="Proposals" asp-action="VoteAccept" asp-route-proposalId="@Model.ProposalId">Accept Proposal</a>
+                <a asp-controller="Proposals" asp-action="VoteReject" asp-route-proposalId="@Model.ProposalId">Reject Proposal</a>
+                @if (@Model.CanWithdraw)
+                {
+                    <a asp-controller="Proposals" asp-action="Withdraw" asp-route-proposalId="@Model.ProposalId">Withdraw Proposal</a>
+                }
+            </p>
+        }
+    }
+}
+<pre>@Model.Proposal</pre>
+
+<h3>Votes</h3>
+<table class="table table-hover w-auto">
+    <thead>
+        <tr>
+            <th>MemberId</th>
+            <th>Name</th>
+            <th>Vote</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var vote in @Model.Votes)
+        {
+            <tr>
+                <td>
+                <pre>@vote.MemberId</pre>
+                </td>
+                <td>
+                    <pre>@vote.MemberName</pre>
+                </td>
+                <td>
+                    <pre>@vote.Vote</pre>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h3>Actions</h3>
+<pre>@Model.Actions</pre>

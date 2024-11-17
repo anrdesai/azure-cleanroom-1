@@ -1,0 +1,65 @@
+name: governance-test
+services:
+  ccf:
+    image: ccf:$ccfImageTag
+    container_name: test-ccf
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./sandbox_common/${initialMemberName}_cert.pem:/app/member0_cert.pem
+      - ./sandbox_common/${initialMemberName}_enc_pubk.pem:/app/member0_enc_pubk.pem
+  cgs-client-member0:
+    image: cgs-client:latest
+    container_name: test-cgs-client-member0
+    ports:
+      - "8290:8080"
+  cgs-ui-member0:
+    image: cgs-ui:latest
+    container_name: test-cgs-ui-member0
+    ports:
+      - "0:6300"
+    environment:
+      - cgsclientEndpoint=http://cgs-client-member0:8080
+  cgs-client-member1:
+    image: cgs-client:latest
+    container_name: test-cgs-client-member1
+    ports:
+      - "8291:8080"
+  cgs-ui-member1:
+    image: cgs-ui:latest
+    container_name: test-cgs-ui-member1
+    ports:
+      - "0:6300"
+    environment:
+      - cgsclientEndpoint=http://cgs-client-member1:8080
+  cgs-client-member2:
+    image: cgs-client:latest
+    container_name: test-cgs-client-member2
+    ports:
+      - "8292:8080"
+  cgs-ui-member2:
+    image: cgs-ui:latest
+    container_name: test-cgs-ui-member2
+    ports:
+      - "0:6300"
+    environment:
+      - cgsclientEndpoint=http://cgs-client-member2:8080
+  cgs-client-ccfOperator:
+    image: cgs-client:latest
+    container_name: test-cgs-client-ccf-operator
+    ports:
+      - "8299:8080"
+  ccr-governance:
+    image: ccr-governance:latest
+    container_name: test-ccr-governance
+    ports:
+      - "8990:8300"
+    environment:
+      - ccrgovEndpoint=https://test-ccf:8080
+      - ccrgovApiPathPrefix=app/contracts/placeholder
+      - insecure_mountpoint=/app/insecure-virtual/
+      - serviceCertPath=/app/sandbox_common/service_cert.pem
+      - INSECURE_VIRTUAL_ENVIRONMENT=true
+    volumes:
+      - ../../../samples/governance/insecure-virtual:/app/insecure-virtual:ro
+      - ./sandbox_common:/app/sandbox_common:ro

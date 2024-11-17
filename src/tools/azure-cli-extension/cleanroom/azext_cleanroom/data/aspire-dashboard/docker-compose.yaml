@@ -1,0 +1,17 @@
+services:
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:0.103.0
+    volumes:
+    - ./otel-collector-config.yaml:/etc/otelcol-contrib/config.yaml
+    - $TELEMETRY_FOLDER:/telemetry
+    working_dir: /
+    user: 10001:10001
+    depends_on:
+    - aspire
+  aspire:
+    image: mcr.microsoft.com/dotnet/nightly/aspire-dashboard:8.0-preview
+    ports:
+    - "18888:18888"   # Dashboard
+    - "4317:18889"    # OTLP gRPC receiver
+    environment:
+      DOTNET_DASHBOARD_UNSECURED_ALLOW_ANONYMOUS: "true"

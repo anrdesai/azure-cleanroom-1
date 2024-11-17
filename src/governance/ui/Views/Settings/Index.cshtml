@@ -1,0 +1,91 @@
+﻿@model SettingsViewModel
+@{
+    ViewData["Title"] = "Settings";
+}
+
+<h2>Settings</h2>
+@if (!Model.Connected)
+{
+    <div class="alert alert-warning" role="alert">
+        <strong>cgs-client not responding</strong>: Check that the container is running and inspect the container logs.
+    </div>
+}
+else if (!Model.Configured)
+{
+    <div class="alert alert-warning" role="alert">
+        <strong>cgs-client not configured</strong>:
+        <a class="alert-link" asp-controller="Workspaces"
+           asp-action="Configure">Configure it now</a> or re-deploy the client.
+    </div>
+}
+else
+{
+    <p>
+        <a asp-controller="Workspaces" asp-action="Configure">Change <code>cgs-client</code> Configuration</a>
+        <a asp-controller="Settings" asp-action="ConstitutionDetail">Inspect Constitution</a>
+        <a asp-controller="Settings" asp-action="JSAppDetail">Inspect JS App</a>
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Property</th>
+                <th scope="col">Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">name</th>
+                <td>@Model.Name</td>
+            </tr>
+            <tr>
+                <th scope="row">endpoint</th>
+                <td>@Model.CcfEndpoint</td>
+            </tr>
+            <tr>
+                <th scope="row">memberId</th>
+                <td><pre>@Model.MemberId</pre></td>
+            </tr>
+            <tr>
+                <th scope="row">signingCert</th>
+                <td><pre>@Model.SigningCert</pre></td>
+            </tr>
+        </tbody>
+        </table>
+
+    @if (Model.Updates?.Proposals != null)
+    {
+        if (Model.Updates.Proposals.Count == 0)
+        {
+            <p><i>No updates available.</i></p>
+        }
+        else
+        {
+            <h4>Updates available</h4>
+
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Proposal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var proposal in @Model.Updates.Proposals)
+                    {
+                    <tr>
+                        <td>
+                            <pre>@proposal.ActionName</pre>
+                        </td>
+                        <td>
+                            <p>
+                                <a asp-controller="Proposals"
+                                    asp-action="Detail" asp-route-proposalId="@proposal.ProposalId">@proposal.ProposalId</a>
+                            </p>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    }
+}

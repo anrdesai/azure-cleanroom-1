@@ -1,0 +1,34 @@
+# Use the official .NET Core SDK as the base image
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+
+# Set the working directory
+WORKDIR /app
+
+# Copy the entire directory to the container
+COPY src /app/src
+COPY Directory.Packages.props /app
+COPY Directory.Build.props /app
+COPY stylecop.json /app
+COPY Menees.Analyzers.Settings.xml /app
+COPY .editorconfig /app
+
+# Publish the application
+RUN dotnet restore /app/src/identity/Identity.sln
+RUN dotnet publish -c Release --no-restore -o /app/publish /app/src/identity/Application/Sidecar/IdentitySidecar.csproj
+
+# Use the official .NET Core runtime as the base image for the final stage
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
+
+# Set the working directory
+WORKDIR /app
+
+# Copy the published output from the build stage to the runtime stage
+COPY --from=build /app/publish .
+
+ARG PORT=8290
+
+# Listen on 8290 and not 80 within the container.
+ENV ASPNETCORE_URLS=http://+:${PORT}
+
+# Set the entry point for the container
+ENTRYPOINT ["dotnet", "Microsoft.Azure.CleanRoomSidecar.Identity.IdentitySidecar.dll"]

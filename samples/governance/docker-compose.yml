@@ -1,0 +1,36 @@
+name: governance-sample
+services:
+  ccf:
+    image: ccf:$ccfImageTag
+    container_name: ccf
+    ports:
+      - "9080:8080"
+    volumes:
+      - ./sandbox_common/${initialMemberName}_cert.pem:/app/member0_cert.pem
+      - ./sandbox_common/${initialMemberName}_enc_pubk.pem:/app/member0_enc_pubk.pem
+  cgs-client-member0:
+    image: cgs-client:latest
+    container_name: cgs-client-member0
+    ports:
+      - "9290:8080"
+  cgs-ui-member0:
+    image: cgs-ui:latest
+    container_name: cgs-ui-member0
+    ports:
+      - "6290:6300"
+    environment:
+      - cgsclientEndpoint=http://cgs-client-member0:8080
+  ccr-governance:
+    image: ccr-governance:latest
+    container_name: ccr-governance
+    ports:
+      - "9990:8300"
+    environment:
+      - ccrgovEndpoint=https://ccf:8080
+      - ccrgovApiPathPrefix=app/contracts/1234
+      - insecure_mountpoint=/app/insecure-virtual/
+      - serviceCertPem=/app/sandbox_common/service_cert.pem
+      - INSECURE_VIRTUAL_ENVIRONMENT=true
+    volumes:
+      - ./insecure-virtual:/app/insecure-virtual:ro
+      - ./sandbox_common:/app/sandbox_common:ro

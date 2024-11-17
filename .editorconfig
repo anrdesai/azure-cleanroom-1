@@ -1,0 +1,175 @@
+# NOTE: Requires **VS2019 16.3** or later
+
+[*]
+indent_style = space
+indent_size = 4
+csharp_indent_labels = one_less_than_current
+csharp_using_directive_placement = outside_namespace:silent
+csharp_prefer_simple_using_statement = true:suggestion
+csharp_prefer_braces = true:silent
+csharp_style_namespace_declarations = file_scoped:error
+csharp_style_prefer_method_group_conversion = true:silent
+csharp_style_expression_bodied_methods = false:silent
+csharp_style_expression_bodied_constructors = false:silent
+csharp_style_expression_bodied_operators = false:silent
+csharp_style_expression_bodied_properties = true:silent
+csharp_style_expression_bodied_indexers = true:silent
+csharp_style_expression_bodied_accessors = true:silent
+csharp_style_expression_bodied_lambdas = true:silent
+csharp_style_expression_bodied_local_functions = false:silent
+
+[*.{json,xml,csproj,props,targets,yaml,yml,ts,js}]
+indent_style = space
+indent_size = 2
+
+# Code files
+[*.{cs,vb}]
+
+dotnet_sort_system_directives_first = true
+
+dotnet_diagnostic.CA1002.severity = none
+dotnet_diagnostic.CA1310.severity = none
+
+# Treat code style rules as Error severity by default and then change behavior
+# of individual rules as appropriate.
+dotnet_analyzer_diagnostic.category-Style.severity = error
+dotnet_diagnostic.IDE0003.severity = none
+dotnet_diagnostic.IDE0005.severity = default
+dotnet_diagnostic.IDE0008.severity = default
+dotnet_diagnostic.IDE0010.severity = none
+dotnet_diagnostic.IDE0017.severity = default
+dotnet_diagnostic.IDE0018.severity = default
+dotnet_diagnostic.IDE0024.severity = default
+dotnet_diagnostic.IDE0025.severity = default
+dotnet_diagnostic.IDE0027.severity = default
+dotnet_diagnostic.IDE0028.severity = default
+dotnet_diagnostic.IDE0037.severity = default
+dotnet_diagnostic.IDE0044.severity = default
+dotnet_diagnostic.IDE0045.severity = default
+dotnet_diagnostic.IDE0046.severity = default
+dotnet_diagnostic.IDE0051.severity = default
+dotnet_diagnostic.IDE0052.severity = suggestion
+dotnet_diagnostic.IDE0054.severity = default
+dotnet_diagnostic.IDE0056.severity = default
+dotnet_diagnostic.IDE0057.severity = default
+dotnet_diagnostic.IDE0058.severity = default
+dotnet_diagnostic.IDE0060.severity = default
+dotnet_diagnostic.IDE0063.severity = default
+dotnet_diagnostic.IDE0066.severity = default
+dotnet_diagnostic.IDE0074.severity = default
+dotnet_diagnostic.IDE0078.severity = default
+dotnet_diagnostic.IDE0130.severity = none
+dotnet_diagnostic.IDE0180.severity = default
+dotnet_diagnostic.IDE0200.severity = default
+dotnet_diagnostic.IDE0270.severity = default
+dotnet_diagnostic.IDE0290.severity = default
+dotnet_diagnostic.IDE0300.severity = none
+dotnet_diagnostic.IDE0305.severity = default
+# IDE0072: Add missing cases
+dotnet_diagnostic.IDE0072.severity = suggestion
+
+# StyleCop ruleset
+# Description: StyleCop ruleset
+
+dotnet_diagnostic.SA0001.severity = none
+dotnet_diagnostic.SA1005.severity = none
+dotnet_diagnostic.SA1118.severity = none
+dotnet_diagnostic.SA1121.severity = none
+dotnet_diagnostic.SA1124.severity = none
+dotnet_diagnostic.SA1129.severity = none
+dotnet_diagnostic.SA1316.severity = none
+dotnet_diagnostic.SA1402.severity = none
+dotnet_diagnostic.SA1413.severity = none
+dotnet_diagnostic.SA1414.severity = none
+dotnet_diagnostic.SA1600.severity = none
+dotnet_diagnostic.SA1649.severity = none
+
+# Menees.Analyzers ruleset
+# Description: Menees.Analyzers ruleset
+
+dotnet_diagnostic.MEN001.severity = none
+dotnet_diagnostic.MEN003.severity = none
+dotnet_diagnostic.MEN004.severity = none
+dotnet_diagnostic.MEN005.severity = none
+dotnet_diagnostic.MEN006.severity = none
+dotnet_diagnostic.MEN007.severity = none
+dotnet_diagnostic.MEN008.severity = none
+dotnet_diagnostic.MEN009.severity = none
+dotnet_diagnostic.MEN010.severity = none
+dotnet_diagnostic.MEN011.severity = none
+dotnet_diagnostic.MEN012.severity = none
+dotnet_diagnostic.MEN013.severity = none
+dotnet_diagnostic.MEN014.severity = none
+dotnet_diagnostic.MEN015.severity = none
+
+dotnet_diagnostic.VSSpell001.severity = suggestion
+dotnet_diagnostic.JSON002.severity = suggestion
+
+
+[*.{cs,vb}]
+#### Naming styles ####
+
+# Naming rules
+
+dotnet_naming_rule.interface_should_be_begins_with_i.severity = suggestion
+dotnet_naming_rule.interface_should_be_begins_with_i.symbols = interface
+dotnet_naming_rule.interface_should_be_begins_with_i.style = begins_with_i
+
+dotnet_naming_rule.types_should_be_pascal_case.severity = suggestion
+dotnet_naming_rule.types_should_be_pascal_case.symbols = types
+dotnet_naming_rule.types_should_be_pascal_case.style = pascal_case
+
+dotnet_naming_rule.non_field_members_should_be_pascal_case.severity = suggestion
+dotnet_naming_rule.non_field_members_should_be_pascal_case.symbols = non_field_members
+dotnet_naming_rule.non_field_members_should_be_pascal_case.style = pascal_case
+
+# Symbol specifications
+
+dotnet_naming_symbols.interface.applicable_kinds = interface
+dotnet_naming_symbols.interface.applicable_accessibilities = public, internal, private, protected, protected_internal, private_protected
+dotnet_naming_symbols.interface.required_modifiers = 
+
+dotnet_naming_symbols.types.applicable_kinds = class, struct, interface, enum
+dotnet_naming_symbols.types.applicable_accessibilities = public, internal, private, protected, protected_internal, private_protected
+dotnet_naming_symbols.types.required_modifiers = 
+
+dotnet_naming_symbols.non_field_members.applicable_kinds = property, event, method
+dotnet_naming_symbols.non_field_members.applicable_accessibilities = public, internal, private, protected, protected_internal, private_protected
+dotnet_naming_symbols.non_field_members.required_modifiers = 
+
+# Naming styles
+
+dotnet_naming_style.begins_with_i.required_prefix = I
+dotnet_naming_style.begins_with_i.required_suffix = 
+dotnet_naming_style.begins_with_i.word_separator = 
+dotnet_naming_style.begins_with_i.capitalization = pascal_case
+
+dotnet_naming_style.pascal_case.required_prefix = 
+dotnet_naming_style.pascal_case.required_suffix = 
+dotnet_naming_style.pascal_case.word_separator = 
+dotnet_naming_style.pascal_case.capitalization = pascal_case
+
+dotnet_naming_style.pascal_case.required_prefix = 
+dotnet_naming_style.pascal_case.required_suffix = 
+dotnet_naming_style.pascal_case.word_separator = 
+dotnet_naming_style.pascal_case.capitalization = pascal_case
+dotnet_style_operator_placement_when_wrapping = beginning_of_line
+tab_width = 4
+end_of_line = crlf
+dotnet_style_coalesce_expression = true:suggestion
+dotnet_style_null_propagation = true:suggestion
+dotnet_style_prefer_is_null_check_over_reference_equality_method = true:suggestion
+dotnet_style_prefer_auto_properties = true:silent
+dotnet_style_object_initializer = true:suggestion
+dotnet_style_collection_initializer = true:suggestion
+dotnet_style_prefer_simplified_boolean_expressions = true:suggestion
+dotnet_style_prefer_conditional_expression_over_assignment = true:silent
+dotnet_style_prefer_conditional_expression_over_return = true:silent
+dotnet_style_explicit_tuple_names = true:suggestion
+dotnet_style_prefer_inferred_tuple_names = true:suggestion
+
+# VSTHRD200: Use "Async" suffix for async methods
+dotnet_diagnostic.VSTHRD200.severity = none
+
+[*.codegen.cs]
+generated_code = true

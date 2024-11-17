@@ -1,0 +1,12 @@
+name: governance-cli
+services:
+  cgs-client:
+    image: ${AZCLI_CGS_CLIENT_IMAGE:-mcr.microsoft.com/cleanroom/cgs-client:1.0.12}
+    ports:
+      - "0:8080"
+  cgs-ui:
+    image: ${AZCLI_CGS_UI_IMAGE:-mcr.microsoft.com/cleanroom/cgs-ui:1.0.12}
+    ports:
+      - "0:6300"
+    environment:
+      - cgsclientEndpoint=http://cgs-client:8080

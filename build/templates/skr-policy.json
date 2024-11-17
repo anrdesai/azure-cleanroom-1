@@ -1,0 +1,32 @@
+{
+  "name": "skr-sidecar",
+  "containerImage": "$containerRegistryUrl/skr@$digest",
+  "command": [
+    "/skr.sh"
+  ],
+  "environmentVariables": [
+    {
+      "name": "SkrSideCarArgs",
+      "value": "ewogICAiY2VydGNhY2hlIjogewogICAgICAiZW5kcG9pbnQiOiAiYW1lcmljYXMuYWNjY2FjaGUuYXp1cmUubmV0IiwKICAgICAgInRlZV90eXBlIjogIlNldlNucFZNIiwKICAgICAgImFwaV92ZXJzaW9uIjogImFwaS12ZXJzaW9uPTIwMjAtMTAtMTUtcHJldmlldyIKICAgfQp9",
+      "strategy": "string"
+    },
+    {
+      "name": "Port",
+      "value": ".*",
+      "strategy": "re2"
+    },
+    {
+      "name": "LogFile",
+      "value": ".*",
+      "strategy": "re2"
+    },
+    {
+      "name": "LogLevel",
+      "value": ".*",
+      "strategy": "re2"
+    }
+  ],
+  "securityContext": {
+    "privileged": "true"
+  }
+}

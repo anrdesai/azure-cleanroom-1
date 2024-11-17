@@ -1,0 +1,55 @@
+<Project>
+  <PropertyGroup>
+    <!-- Opt-in to centrally managed package versions. -->
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+
+    <!-- Suppress MSB3270 'There was a mismatch between the processor architecture of the project being built "MSIL" and the processor architecture of the reference..." -->
+    <ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>None</ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>
+
+    <!-- Enlistment root is based off of wherever this file is. -->
+    <EnlistmentRootSrc Condition=" '$(EnlistmentRoot)' == '' ">$(MSBuildThisFileDirectory.TrimEnd('\\'))</EnlistmentRootSrc>
+    <EnlistmentRoot Condition=" '$(EnlistmentRoot)' == '' ">$(EnlistmentRootSrc)/..</EnlistmentRoot>
+
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <!-- Generate documentation file unless it has been explicitly suppressed. -->
+    <DocumentationFile Condition="'$(SuppressDocumentation)' != 'true'">obj\$(MSBuildProjectName).xml</DocumentationFile>
+    <NoWarn>$(NoWarn),1573,1591,1712,NU1507</NoWarn>
+  </PropertyGroup>
+
+  <!-- Add StyleCop Analyzers for all projects -->
+  <PropertyGroup Condition="'$(MSBuildProjectExtension)' == '.csproj'">
+    <StyleCopEnabled>false</StyleCopEnabled>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <CodeAnalysisTreatWarningsAsErrors>true</CodeAnalysisTreatWarningsAsErrors>
+    <StyleCopSettings>$(MSBuildThisFileDirectory)\stylecop.json</StyleCopSettings>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(MSBuildProjectExtension)' == '.csproj'">
+    <PackageReference Include="StyleCop.Analyzers" />
+    <AdditionalFiles Include="$(StyleCopSettings)">
+      <Link>$([System.IO.Path]::GetFileName('$(StyleCopSettings)'))</Link>
+      <Visible>false</Visible>
+    </AdditionalFiles>
+  </ItemGroup>
+
+  <!-- Add Menees Analyzers for all projects -->
+  <ItemGroup Condition="'$(MSBuildProjectExtension)' == '.csproj'">
+    <PackageReference Include="Menees.Analyzers" />
+    <AdditionalFiles Include="$(MSBuildThisFileDirectory)\Menees.Analyzers.Settings.xml" Link="Menees.Analyzers.Settings.xml" Visible="False" />
+  </ItemGroup>
+
+  <!-- Add Microsoft.VisualStudio.Threading.Analyzers for all projects -->
+  <ItemGroup Condition="'$(MSBuildProjectExtension)' == '.csproj'">
+    <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <PropertyGroup>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <AnalysisModeStyle>All</AnalysisModeStyle>
+  </PropertyGroup>
+</Project>

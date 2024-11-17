@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>ed39428d-4ec0-4f77-8b2c-ba8454a09db3</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup>
+    <T4CodeGenerators>$(MSBuildThisFileDirectory)</T4CodeGenerators>
+    <T4Include>$(T4CodeGenerators)Include</T4Include>
+    <IncludeFolders>$(IncludeFolders);$(T4Include)</IncludeFolders>
+  </PropertyGroup>
+  <ItemGroup>
+    <!--
+      Note that dotnet t4 command has a known issue where parameters
+      are not expanded in include directives.
+
+      https://github.com/mono/t4/issues/107
+    -->
+    <T4ParameterValues Include="T4Include">
+      <Value>$(T4Include)</Value>
+    </T4ParameterValues>
+    <T4ParameterValues Include="RootNamespace">
+      <Value>$(RootNamespace)</Value>
+    </T4ParameterValues>
+  </ItemGroup>
+  <!-- 
+    Surface common templates as linked files in the project.
+
+    This is purely for developer convenience when using Visual Studio and is
+    not required for the build.
+  -->
+  <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)**\*.ttinclude">
+      <Link>T4\%(RecursiveDir)%(Filename)%(Extension)</Link>
+    </Content>
+  </ItemGroup>
+  <!-- T4 support within Visual Studio (Begin) -->
+  <PropertyGroup Condition="'$(MSBuildRuntimeType)'=='Full'">
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <TransformOnBuild>true</TransformOnBuild>
+    <!--
+      Set to true to force overwriting of read-only output files, e.g. if
+      they're not checked out (default is false).
+    -->
+    <OverwriteReadOnlyOutputFiles>true</OverwriteReadOnlyOutputFiles>
+    <!--
+      Set to false to transform files even if the output appears to be
+      up-to-date (default is true).
+    -->
+    <TransformOutOfDateOnly>true</TransformOutOfDateOnly>
+  </PropertyGroup>
+  <Import Project="$(VSToolsPath)\TextTemplating\Microsoft.TextTemplating.targets" Condition="'$(MSBuildRuntimeType)'=='Full'" />
+  <!-- T4 support within Visual Studio (End) -->
+  <!-- T4 support for .Net core build (Begin) -->
+  <PropertyGroup>
+    <!--
+      T4 dotnet build integration has been disabled due to Localization
+      challenges.
+
+      Our localization infrastructure consumes resource strings in the form of
+      .resx files and generates satellite assemblies containing the localized
+      strings.
+      
+      However, generation of .resx files programatically depends on the 
+      System.Resource.ResXResourceWriter library that is not available in .Net
+      Core.
+    -->
+    <EnableDotnetBuildT4Integration>false</EnableDotnetBuildT4Integration>
+  </PropertyGroup>
+  <ItemGroup Condition="'$(MSBuildRuntimeType)'=='Core' And $(EnableDotnetBuildT4Integration)=='true'">
+    <TextTemplate Include="**\*.tt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)Include\ErrorsGenerator.ttinclude" />
+    <None Include="$(MSBuildThisFileDirectory)Include\MetricsGenerator.ttinclude" />
+  </ItemGroup>
+  <Target Name="TextTemplateTransform" BeforeTargets="BeforeBuild" Condition="'$(MSBuildRuntimeType)'=='Core' And $(EnableDotnetBuildT4Integration)=='true'">
+    <ItemGroup>
+      <Compile Remove="**\*.cs" />
+    </ItemGroup>
+    <Message Text="Generating code for %(TextTemplate.Identity) using 't4 %(TextTemplate.Identity) -I=$(T4Include) -p:T4Include=$(T4Include)'" Importance="high" />
+    <Exec WorkingDirectory="$(ProjectDir)" Command="t4 %(TextTemplate.Identity) -I=$(T4Include) -p:T4Include=$(T4Include)" />
+    <ItemGroup>
+      <Compile Include="**\*.cs" />
+    </ItemGroup>
+  </Target>
+  <!-- T4 support for .Net core build (End) -->
+</Project>
