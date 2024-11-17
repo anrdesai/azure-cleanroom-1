@@ -1,18 +1,35 @@
 # Project
+## Quickstart
+The quickest way to develop or build and run sample applications is to checkout this repository locally in its development container by clicking:  
+ [![Open in VSCode](https://img.shields.io/static/v1?label=Open+in&message=VSCode&logo=visualstudiocode&color=007ACC&logoColor=007ACC&labelColor=2C2C32)](https://vscode.dev/redirect?url=vscode://ms-vscode-remote.remote-containers/cloneInVolume?url=https://github.com/microsoft/azure-cleanroom)
 
-> This repo has been populated by an initial template to help get you started. Please
-> make sure to update the content to build a great experience for community-building.
+ Alternatively, if your organisation supports it, you can checkout this repository in a Github codespace:  
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/microsoft/azure-cleanroom)
 
-As the maintainer of this project, please make a few updates:
+## Multi-party Collaboration
 
-- Improving this README.MD file to provide a great experience
-- Updating SUPPORT.MD with content about this project's support experience
-- Understanding the security reporting process in SECURITY.MD
-- Remove this section from the README
+- See [readme](https://github.com/Azure/azure-cleanroom-samples) for a multi-party data sharing and processing samples.
+
+## Governance
+
+- See [samples readme](samples/governance/README.md) for setting up clean room governance sample.
+- See [developer readme](src/governance/README.md) for setting up the environment for development. 
+
+## Clean Room Azure CLI Extension
+
+- See [readme](src/tools/azure-cli-extension/cleanroom/README.md) for extension development and usage.
+
+## CCF
+
+- See [readme](src/ccf/README.md) for CCF creation and design.
+
+## Developer onebox setup
+
+- See [readme](test/onebox/README.md) for running clean room containers locally on a Kind cluster.
 
 ## Contributing
 
-This project welcomes contributions and suggestions.  Most contributions require you to agree to a
+This project welcomes contributions and suggestions. Most contributions require you to agree to a
 Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
 the rights to use your contribution. For details, visit https://cla.opensource.microsoft.com.
 
