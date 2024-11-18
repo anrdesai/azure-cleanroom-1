@@ -1,0 +1,26 @@
+{
+  "name": "ccr-attestation",
+  "properties": {
+    "image": "$containerRegistryUrl/ccr-attestation@$digest",
+    "command": [
+      "app",
+      "-socket-address",
+      "/mnt/uds/sock"
+    ],
+    "volumeMounts": [
+      {
+        "name": "uds",
+        "mountPath": "/mnt/uds"
+      }
+    ],
+    "resources": {
+      "requests": {
+        "memoryInGB": 0.2,
+        "cpu": 0.2
+      }
+    },
+    "securityContext": {
+      "privileged": true
+    }
+  }
+}

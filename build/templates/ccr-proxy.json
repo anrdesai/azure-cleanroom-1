@@ -1,0 +1,19 @@
+{
+  "name": "ccr-proxy",
+  "properties": {
+      "image": "$containerRegistryUrl/ccr-proxy@$digest",
+      "command": [
+        "/bin/sh",
+        "bootstrap.sh"
+      ],
+      "resources": {
+        "requests": {
+          "memoryInGB": 0.2,
+          "cpu": 0.2
+        }
+      },
+      "securityContext": {
+          "privileged": "true"
+      }
+  }
+}

@@ -1,0 +1,152 @@
+openapi: 3.0.0
+info:
+  title: Governance API
+  version: 0.1.0
+paths:
+  /secrets:
+    post:
+      summary: Gets the specified secret.
+      requestBody: 
+        content: 
+          application/json: 
+            schema: 
+              type: object
+              properties: 
+                attestation:
+                  type: object
+                  description: The attestation report.
+                  properties: 
+                    evidence:
+                      type: string
+                    endorsements:
+                      type: string
+                    uvm_endorsements:
+                      type: string
+                encrypt:
+                  type: object
+                  description: Contains public key used to wrap the secret in the response.
+                  properties: 
+                    publicKey:
+                      type: string
+                      description: Base64 encoded Public Key PEM.
+                secretId:
+                  type: string
+                  description: The secret Id of the secret to get.
+      responses:
+        '200':
+          description: The secret value.
+          content:
+            application/json:
+              schema: 
+                type: object
+                properties: 
+                  value:
+                    type: string
+                    description: The base64 encoded secret value wrapped using the public key.
+  /events:
+    put:
+      summary: Inserts the specified event.
+      parameters: 
+        - in: query
+          name: id
+          required: false
+          schema:
+            type: string
+          description: The ID to associate with the event.
+        - in: query
+          name: scope
+          required: false
+          schema:
+            type: string
+          description: Any scope to associate with the event.
+      requestBody: 
+        content: 
+          application/json: 
+            schema: 
+              type: object
+              properties: 
+                attestation:
+                  type: object
+                  description: The attestation report.
+                  properties: 
+                    evidence:
+                      type: string
+                    endorsements:
+                      type: string
+                    uvm_endorsements:
+                      type: string
+                sign:
+                  type: object
+                  description: Contains signature of the payload
+                  properties: 
+                    publicKey:
+                      type: string
+                      description: Base64 encoded Public Key PEM to be used for signature verification.
+                    signature:
+                      type: string
+                      description: The signature of the payload.
+                timestamp:
+                  type: string
+                  description: The number of milliseconds passed since the Unix epoch.
+                data:
+                  type: object
+                  description: The opaque payload associated with the event
+      responses:
+        '200':
+          description: Indicates the event was inserted.
+  /oauth/token:
+    post:
+      summary: Gets an ID token.
+      parameters: 
+        - in: query
+          name: tenantId
+          required: true
+          schema:
+            type: string
+          description: The Microsoft Entra TenantId value.
+        - in: query
+          name: sub
+          required: true
+          schema:
+            type: string
+          description: The value to set as the 'sub' claim in the token.
+        - in: query
+          name: aud
+          required: true
+          schema:
+            type: string
+          description: The value to set as the 'aud' claim in the token.
+      requestBody: 
+        content: 
+          application/json: 
+            schema: 
+              type: object
+              properties: 
+                attestation:
+                  type: object
+                  description: The attestation report.
+                  properties: 
+                    evidence:
+                      type: string
+                    endorsements:
+                      type: string
+                    uvm_endorsements:
+                      type: string
+                encrypt:
+                  type: object
+                  description: Contains public key used to wrap the token in the response.
+                  properties: 
+                    publicKey:
+                      type: string
+                      description: Base64 encoded Public Key PEM.
+      responses:
+        '200':
+          description: The token value.
+          content:
+            application/json:
+              schema: 
+                type: object
+                properties: 
+                  value:
+                    type: string
+                    description: The base64 encoded token value wrapped using the public key.

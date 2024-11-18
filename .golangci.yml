@@ -1,0 +1,10 @@
+linters-settings:
+  govet:
+    # Report about shadowed variables. We avoid shadowed variables as it can create confusion
+    # around its uage around which err variable is getting used in statements like 
+    #"x, err := someFunc()"" when intent is to capture the error being returned from a method in a
+    # single common err variable.
+    # Default: false
+    check-shadowing: true
+run:
+  timeout: 5m

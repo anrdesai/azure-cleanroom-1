@@ -1,0 +1,40 @@
+<#
+// T4 templates are very sensitive to spacing. The overall layout typically looks odd, if the
+// generated code is to be properly indented. Thus, nearly every source indent and blank line here
+// (or lack thereof) are significant. Be aware that trailing whitespace in a line that ends a
+// control block can cause a blank line to appear before the next line.
+#>
+<#@ assembly name="System.Windows.Forms.dll" #>
+<#@ import namespace="System.Resources" #>
+<#@ include file="Xml.ttinclude" once="true"#><#+
+    /// <summary>
+    /// T4 class capturing properties from the XML nodes that are consumed for generating the
+    /// output.
+    /// </summary>
+    internal class _ResXWriter
+    {
+        public static void GenerateResxFile(
+            List<_XmlNode> nodes,
+            List<string> resourceStringElements,
+            string resourceIdPrefix,
+            string resxFilePath)
+        {
+            using (ResXResourceWriter resxWriter = new ResXResourceWriter(resxFilePath))
+            {
+                foreach (var node in nodes)
+                {
+                    foreach (var item in resourceStringElements)
+                    {
+                        var payload = node.Element[item];
+                        if (!string.IsNullOrWhiteSpace(payload))
+                        {
+                            resxWriter.AddResource(
+                                $"{resourceIdPrefix}_{node.Code}_{item}",
+                                payload);
+                        }
+                    }
+                }
+            }
+        }
+    }
+#>

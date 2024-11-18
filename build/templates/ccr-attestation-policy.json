@@ -1,0 +1,21 @@
+{
+  "name": "ccr-attestation",
+  "containerImage": "$containerRegistryUrl/ccr-attestation@$digest",
+  "command": [
+    "app",
+    "-socket-address",
+    "/mnt/uds/sock"
+  ],
+  "environmentVariables": [],
+  "mounts": [
+    {
+      "name": "uds",
+      "mountPath": "/mnt/uds",
+      "mountType": "emptyDir",
+      "readOnly": false
+    }
+  ],
+  "securityContext": {
+    "privileged": "true"
+  }
+}

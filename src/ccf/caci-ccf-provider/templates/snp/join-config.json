@@ -1,0 +1,46 @@
+{
+  "enclave": {
+    "file": "/usr/lib/ccf/libjs_generic.snp.so",
+    "platform": "SNP",
+    "type": "Release"
+  },
+  "network": {
+    "node_to_node_interface": {
+      "bind_address": "0.0.0.0:8081",
+      "published_address": "$publishedAddress"
+    },
+    "rpc_interfaces": {
+      "primary_rpc_interface": {
+        "bind_address": "0.0.0.0:8080",
+        "published_address": "$publishedAddress"
+      },
+      "debug_interface": {
+        "bind_address": "0.0.0.0:8082",
+        "published_address": "$publishedAddress",
+        "endorsement": {
+          "authority": "Node"
+        }
+      }
+    }
+  },
+  "node_certificate": {
+    "initial_validity_days": 30
+  },
+  "command": {
+    "type": "Join",
+    "service_certificate_file": "/app/service_cert.pem",
+    "join": {
+      "target_rpc_address": "$targetRpcAddress"
+    }
+  },
+  "attestation": {
+    "snp_endorsements_servers": [
+      {
+        "type": "THIM",
+        "url": "$Fabric_NodeIPOrFQDN:2377"
+      }
+    ],
+    "snp_security_policy_file": "$UVM_SECURITY_CONTEXT_DIR/security-policy-base64",
+    "snp_uvm_endorsements_file": "$UVM_SECURITY_CONTEXT_DIR/reference-info-base64"
+  }
+}

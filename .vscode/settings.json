@@ -1,0 +1,49 @@
+{
+  "editor.rulers": [
+    100
+  ],
+  "editor.renderWhitespace": "all",
+  "terminal.integrated.defaultProfile.linux": "pwsh",
+  "scm.defaultViewMode": "tree",
+  "python.analysis.autoImportCompletions": true,
+  "python.analysis.typeCheckingMode": "basic",
+  "[javascript]": {
+    "editor.indentSize": 2,
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[powershell]": {
+    "editor.indentSize": 4,
+    "editor.formatOnSave": true
+  },
+  "[typescript]": {
+    "editor.indentSize": 2,
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+  },
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.black-formatter",
+    "editor.formatOnSave": true
+  },
+  "eslint.workingDirectories": [
+    { "mode": "auto" }
+  ],
+  "eslint.experimental.useFlatConfig": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  "eslint.lintTask.enable": true,
+  "eslint.probe": [
+    "javascriptreact",
+    "typescript",
+    "typescriptreact",
+    "html",
+    "vue",
+    "markdown"
+  ],
+  "vs-kubernetes": {
+    "disable-linters": [
+      "resource-limits"
+    ]
+  }
+}

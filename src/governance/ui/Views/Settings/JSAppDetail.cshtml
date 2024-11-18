@@ -1,0 +1,31 @@
+﻿@model JSAppViewModel
+@{
+    ViewData["Title"] = "JS App";
+}
+<a href="#modules">Jump to Modules</a>
+
+<h2>Endpoints</h2>
+<pre>@Model.Endpoints</pre>
+
+<div id="modules">
+<h2>Modules</h2>
+    @{
+        int count = 0;
+        foreach (var item in Model.Modules)
+        {
+            count++;
+            <p><a href="#module_@count">@count: @item.Item1</a></p>
+        }
+    }
+    @{
+    int count2 = 0;
+    foreach (var item in Model.Modules)
+    {
+        count2++;
+        <div id="module_@count2">
+        <p><b>@count: @item.Item1</b></p>
+        <p><pre>@item.Item2</pre></p>
+        </div>
+    }
+}
+</div>

@@ -1,0 +1,781 @@
+{
+    "$schema": "http://json-schema.org/draft-06/schema#",
+    "$ref": "#/definitions/Welcome6",
+    "definitions": {
+        "Welcome6": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "ResourceProviders": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ResourceProvider"
+                    }
+                },
+                "SecretStores": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ResourceProvider"
+                    }
+                },
+                "Identities": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Identity"
+                    }
+                },
+                "DataStoreTemplates": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/DataStoreTemplate"
+                    }
+                },
+                "Specification": {
+                    "$ref": "#/definitions/Specification"
+                }
+            },
+            "required": [
+                "DataStoreTemplates",
+                "Identities",
+                "ResourceProviders",
+                "SecretStores",
+                "Specification"
+            ],
+            "title": "Welcome6"
+        },
+        "DataStoreTemplate": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "Type": {
+                    "type": "string"
+                },
+                "Path": {
+                    "type": "null"
+                },
+                "Store": {
+                    "$ref": "#/definitions/DataStoreTemplateStore"
+                },
+                "Protection": {
+                    "$ref": "#/definitions/DataStoreTemplateProtection"
+                }
+            },
+            "required": [
+                "Path",
+                "Protection",
+                "Store",
+                "Type"
+            ],
+            "title": "DataStoreTemplate"
+        },
+        "DataStoreTemplateProtection": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "ProxyType": {
+                    "type": "string"
+                },
+                "ProxyMode": {
+                    "type": "string"
+                },
+                "PrivacyPolicy": {
+                    "type": "null"
+                },
+                "Configuration": {
+                    "type": "string"
+                },
+                "EncryptionSecret": {
+                    "$ref": "#/definitions/PurpleEncryptionSecret"
+                }
+            },
+            "required": [
+                "Configuration",
+                "EncryptionSecret",
+                "PrivacyPolicy",
+                "ProxyMode",
+                "ProxyType"
+            ],
+            "title": "DataStoreTemplateProtection"
+        },
+        "PurpleEncryptionSecret": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "DEK": {
+                    "$ref": "#/definitions/Dek"
+                }
+            },
+            "required": [
+                "DEK"
+            ],
+            "title": "PurpleEncryptionSecret"
+        },
+        "Dek": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "SecretType": {
+                    "$ref": "#/definitions/SecretType"
+                },
+                "BackingResource": {
+                    "$ref": "#/definitions/DataStoreTemplateStore"
+                }
+            },
+            "required": [
+                "BackingResource",
+                "SecretType"
+            ],
+            "title": "Dek"
+        },
+        "DataStoreTemplateStore": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "Type": {
+                    "$ref": "#/definitions/Type"
+                }
+            },
+            "required": [
+                "Type"
+            ],
+            "title": "DataStoreTemplateStore"
+        },
+        "Identity": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "Name": {
+                    "type": "string"
+                },
+                "ClientId": {
+                    "anyOf": [
+                        {
+                            "type": "null"
+                        },
+                        {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    ]
+                },
+                "TenantId": {
+                    "anyOf": [
+                        {
+                            "type": "null"
+                        },
+                        {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    ]
+                },
+                "TokenIssuer": {
+                    "$ref": "#/definitions/PurpleTokenIssuer"
+                }
+            },
+            "required": [
+                "ClientId",
+                "Name",
+                "TenantId",
+                "TokenIssuer"
+            ],
+            "title": "Identity"
+        },
+        "PurpleTokenIssuer": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "Issuer": {
+                    "$ref": "#/definitions/ResourceProvider"
+                },
+                "Secret": {
+                    "$ref": "#/definitions/PurpleSecret"
+                },
+                "SecretAccessIdentity": {
+                    "$ref": "#/definitions/SecretAccessIdentity"
+                },
+                "FederatedIdentity": {
+                    "$ref": "#/definitions/PurpleFederatedIdentity"
+                }
+            },
+            "required": [
+                "Issuer"
+            ],
+            "title": "PurpleTokenIssuer"
+        },
+        "PurpleFederatedIdentity": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "Name": {
+                    "type": "string"
+                },
+                "ClientId": {
+                    "anyOf": [
+                        {
+                            "type": "null"
+                        },
+                        {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    ]
+                },
+                "TenantId": {
+                    "type": "null"
+                },
+                "TokenIssuer": {
+                    "$ref": "#/definitions/FederatedIdentityTokenIssuer"
+                }
+            },
+            "required": [
+                "ClientId",
+                "Name",
+                "TenantId",
+                "TokenIssuer"
+            ],
+            "title": "PurpleFederatedIdentity"
+        },
+        "FederatedIdentityTokenIssuer": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "Issuer": {
+                    "$ref": "#/definitions/ResourceProvider"
+                },
+                "Secret": {
+                    "$ref": "#/definitions/Secret"
+                },
+                "SecretAccessIdentity": {
+                    "$ref": "#/definitions/SecretAccessIdentity"
+                }
+            },
+            "required": [
+                "Issuer"
+            ],
+            "title": "FederatedIdentityTokenIssuer"
+        },
+        "Secret": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "SecretType": {
+                    "$ref": "#/definitions/SecretType"
+                },
+                "BackingResource": {
+                    "$ref": "#/definitions/SecretStore"
+                }
+            },
+            "required": [
+                "BackingResource",
+                "SecretType"
+            ],
+            "title": "Secret"
+        },
+        "SecretStore": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "Name": {
+                    "type": "string"
+                },
+                "Type": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/definitions/Type"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ]
+                },
+                "Id": {
+                    "type": "string"
+                },
+                "Provider": {
+                    "$ref": "#/definitions/ResourceProvider"
+                },
+                "Identity": {
+                    "$ref": "#/definitions/EncryptionSecretAccessIdentityClass"
+                }
+            },
+            "required": [
+                "Id",
+                "Name",
+                "Provider",
+                "Type"
+            ],
+            "title": "SecretStore"
+        },
+        "EncryptionSecretAccessIdentityClass": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "Name": {
+                    "$ref": "#/definitions/IdentityName"
+                },
+                "ClientId": {
+                    "type": "string",
+                    "format": "uuid"
+                },
+                "TenantId": {
+                    "type": "string",
+                    "format": "uuid"
+                },
+                "TokenIssuer": {
+                    "$ref": "#/definitions/EncryptionSecretAccessIdentityTokenIssuer"
+                }
+            },
+            "required": [
+                "ClientId",
+                "Name",
+                "TenantId",
+                "TokenIssuer"
+            ],
+            "title": "EncryptionSecretAccessIdentityClass"
+        },
+        "EncryptionSecretAccessIdentityTokenIssuer": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "Issuer": {
+                    "$ref": "#/definitions/ResourceProvider"
+                },
+                "FederatedIdentity": {
+                    "$ref": "#/definitions/FluffyFederatedIdentity"
+                }
+            },
+            "required": [
+                "FederatedIdentity",
+                "Issuer"
+            ],
+            "title": "EncryptionSecretAccessIdentityTokenIssuer"
+        },
+        "FluffyFederatedIdentity": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "Name": {
+                    "$ref": "#/definitions/FederatedIdentityName"
+                },
+                "ClientId": {
+                    "type": "string",
+                    "format": "uuid"
+                },
+                "TenantId": {
+                    "type": "null"
+                },
+                "TokenIssuer": {
+                    "$ref": "#/definitions/FederatedIdentityTokenIssuer"
+                }
+            },
+            "required": [
+                "ClientId",
+                "Name",
+                "TenantId",
+                "TokenIssuer"
+            ],
+            "title": "FluffyFederatedIdentity"
+        },
+        "SecretAccessIdentity": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "Name": {
+                    "$ref": "#/definitions/SecretAccessIdentityName"
+                },
+                "ClientId": {
+                    "anyOf": [
+                        {
+                            "type": "null"
+                        },
+                        {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    ]
+                },
+                "TenantId": {
+                    "type": "null"
+                },
+                "TokenIssuer": {
+                    "$ref": "#/definitions/SecretAccessIdentityTokenIssuer"
+                }
+            },
+            "required": [
+                "ClientId",
+                "Name",
+                "TenantId",
+                "TokenIssuer"
+            ],
+            "title": "SecretAccessIdentity"
+        },
+        "SecretAccessIdentityTokenIssuer": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "Issuer": {
+                    "$ref": "#/definitions/ResourceProvider"
+                }
+            },
+            "required": [
+                "Issuer"
+            ],
+            "title": "SecretAccessIdentityTokenIssuer"
+        },
+        "PurpleSecret": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "SecretType": {
+                    "$ref": "#/definitions/SecretType"
+                },
+                "BackingResource": {
+                    "$ref": "#/definitions/BackingResource"
+                }
+            },
+            "required": [
+                "BackingResource",
+                "SecretType"
+            ],
+            "title": "PurpleSecret"
+        },
+        "BackingResource": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "Name": {
+                    "type": "string"
+                },
+                "Type": {
+                    "type": "string"
+                },
+                "Id": {
+                    "type": "string"
+                },
+                "Provider": {
+                    "$ref": "#/definitions/ResourceProvider"
+                }
+            },
+            "required": [
+                "Id",
+                "Name",
+                "Provider",
+                "Type"
+            ],
+            "title": "BackingResource"
+        },
+        "ResourceProvider": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "Protocol": {
+                    "$ref": "#/definitions/Protocol"
+                },
+                "URL": {
+                    "anyOf": [
+                        {
+                            "type": "null"
+                        },
+                        {
+                            "type": "string",
+                            "format": "uri",
+                            "qt-uri-protocols": [
+                                "https"
+                            ]
+                        }
+                    ]
+                },
+                "Configuration": {
+                    "$ref": "#/definitions/Configuration"
+                }
+            },
+            "required": [
+                "Protocol",
+                "URL"
+            ],
+            "title": "ResourceProvider"
+        },
+        "Specification": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "DataSources": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/DataS"
+                    }
+                },
+                "DataSinks": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/DataS"
+                    }
+                },
+                "Applications": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Application"
+                    }
+                },
+                "Sandbox": {
+                    "$ref": "#/definitions/Sandbox"
+                }
+            },
+            "required": [
+                "Applications",
+                "DataSinks",
+                "DataSources",
+                "Sandbox"
+            ],
+            "title": "Specification"
+        },
+        "Application": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "Name": {
+                    "type": "string"
+                },
+                "Image": {
+                    "$ref": "#/definitions/Image"
+                },
+                "Command": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "EnvironmentVariables": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/EnvironmentVariable"
+                    }
+                }
+            },
+            "required": [
+                "Command",
+                "EnvironmentVariables",
+                "Image",
+                "Name"
+            ],
+            "title": "Application"
+        },
+        "EnvironmentVariable": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "model_config": {
+                    "type": "string"
+                },
+                "query_config": {
+                    "type": "string"
+                }
+            },
+            "required": [],
+            "title": "EnvironmentVariable"
+        },
+        "Image": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "Executable": {
+                    "$ref": "#/definitions/Executable"
+                },
+                "Protection": {
+                    "type": "null"
+                },
+                "EnforcementPolicy": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "EnforcementPolicy",
+                "Executable",
+                "Protection"
+            ],
+            "title": "Image"
+        },
+        "Executable": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "DocumentType": {
+                    "type": "string"
+                },
+                "BackingResource": {
+                    "$ref": "#/definitions/SecretStore"
+                },
+                "AuthenticityReceipt": {
+                    "type": "null"
+                }
+            },
+            "required": [
+                "AuthenticityReceipt",
+                "BackingResource",
+                "DocumentType"
+            ],
+            "title": "Executable"
+        },
+        "DataS": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "Name": {
+                    "type": "string"
+                },
+                "Type": {
+                    "type": "string"
+                },
+                "Path": {
+                    "type": "null"
+                },
+                "Store": {
+                    "$ref": "#/definitions/SecretStore"
+                },
+                "Identity": {
+                    "$ref": "#/definitions/EncryptionSecretAccessIdentityClass"
+                },
+                "Protection": {
+                    "$ref": "#/definitions/DataSinkProtection"
+                }
+            },
+            "required": [
+                "Identity",
+                "Name",
+                "Path",
+                "Protection",
+                "Store",
+                "Type"
+            ],
+            "title": "DataS"
+        },
+        "DataSinkProtection": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "ProxyType": {
+                    "type": "string"
+                },
+                "ProxyMode": {
+                    "type": "string"
+                },
+                "PrivacyPolicy": {
+                    "type": "null"
+                },
+                "Configuration": {
+                    "type": "string"
+                },
+                "EncryptionSecret": {
+                    "$ref": "#/definitions/FluffyEncryptionSecret"
+                },
+                "EncryptionSecretAccessIdentity": {
+                    "$ref": "#/definitions/EncryptionSecretAccessIdentityClass"
+                }
+            },
+            "required": [
+                "Configuration",
+                "EncryptionSecret",
+                "EncryptionSecretAccessIdentity",
+                "PrivacyPolicy",
+                "ProxyMode",
+                "ProxyType"
+            ],
+            "title": "DataSinkProtection"
+        },
+        "FluffyEncryptionSecret": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "DEK": {
+                    "$ref": "#/definitions/Secret"
+                }
+            },
+            "required": [
+                "DEK"
+            ],
+            "title": "FluffyEncryptionSecret"
+        },
+        "Sandbox": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "Type": {
+                    "type": "integer"
+                },
+                "Configuration": {
+                    "$ref": "#/definitions/Configuration"
+                }
+            },
+            "required": [
+                "Configuration",
+                "Type"
+            ],
+            "title": "Sandbox"
+        },
+        "SecretType": {
+            "type": "string",
+            "enum": [
+                "Secret",
+                "Key"
+            ],
+            "title": "SecretType"
+        },
+        "Configuration": {
+            "type": "string",
+            "enum": [
+                "{authenticationType: Secret}",
+                "{Subject: _ContractID_, Audience: _AzureADAudienceName_}",
+                "{}",
+                "{authenticationType: FederatedIdentity}",
+                "{authority: \"sharedneu.neu.attest.azure.net\"}"
+            ],
+            "title": "Configuration"
+        },
+        "Protocol": {
+            "type": "string",
+            "enum": [
+                "AzureAD__Identity",
+                "Attested-OIDC",
+                "AzureKeyVault",
+                "AzureAD__ManagedIdentity",
+                "AzureAD__MultiTenantApplication",
+                "CGS",
+                "AzureStorageAccount",
+                "AzureContainerRegistry"
+            ],
+            "title": "Protocol"
+        },
+        "IdentityName": {
+            "type": "string",
+            "enum": [
+                "CodeProviderIdentity"
+            ],
+            "title": "IdentityName"
+        },
+        "FederatedIdentityName": {
+            "type": "string",
+            "enum": [
+                "CleanRoomIdentity"
+            ],
+            "title": "FederatedIdentityName"
+        },
+        "Type": {
+            "type": "string",
+            "enum": [
+                "AzureKeyVault__Secret",
+                "AzureKeyVault_SecureKey",
+                "AzureStorage__BlobContainer"
+            ],
+            "title": "Type"
+        },
+        "SecretAccessIdentityName": {
+            "type": "string",
+            "enum": [
+                "DefaultIdentity",
+                "CleanRoomIdentity-OIDC"
+            ],
+            "title": "SecretAccessIdentityName"
+        }
+    }
+}

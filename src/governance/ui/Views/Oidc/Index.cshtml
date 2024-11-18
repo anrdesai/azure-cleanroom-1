@@ -1,0 +1,35 @@
+﻿@model OidcIssuerViewModel
+@{
+    ViewData["Title"] = "OIDC Issuer";
+}
+
+<h2>OIDC Issuer</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Property</th>
+            <th scope="col">Value</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th scope="row">enabled</th>
+            <td>@Model.Enabled</td>
+        </tr>
+        <tr>
+            <th scope="row">issuerUrl</th>
+            <td><pre>@(Model.IssuerUrl ??  "Not set")</pre></td>
+        </tr>
+        @if (Model.TenantData?.TenantId != null)
+        {
+            <tr>
+                <th scope="row">tenantId</th>
+                <td><pre>@Model.TenantData.TenantId</pre></td>
+            </tr>
+            <tr>
+                <th scope="row">tenant issuerUrl</th>
+                <td><pre>@Model.TenantData.IssuerUrl</pre></td>
+            </tr>
+        }
+    </tbody>
+    </table>

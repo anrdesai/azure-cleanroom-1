@@ -1,0 +1,2 @@
+$response = (curl -sS -X POST "https://sharedneu.neu.attest.azure.net/attest/SevSnpVm?api-version=2022-08-01" -d "@${PSScriptRoot}/maa-request.json" -H "content-type: application/json")
+return ($response | ConvertFrom-Json).token

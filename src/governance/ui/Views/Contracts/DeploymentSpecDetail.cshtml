@@ -1,0 +1,33 @@
+﻿@model DeploymentSpecViewModel
+@{
+    ViewData["Title"] = "Deployment Spec Details";
+}
+
+<h2>Deployment Spec Details</h2>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>DeploymentSpec</th>
+            <th>Open Proposals</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <pre>@Model.Data</pre>
+            </td>
+            <td>
+                @if (@Model.ProposalIds != null)
+                {
+                    @foreach (var proposalId in @Model.ProposalIds)
+                    {
+                        <p>
+                            <a asp-controller="Proposals"
+                               asp-action="Detail" asp-route-proposalId="@proposalId">@proposalId</a>
+                        </p>
+                    }
+                }
+            </td>
+        </tr>
+    </tbody>
+</table>

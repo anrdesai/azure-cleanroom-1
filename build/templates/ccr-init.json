@@ -1,0 +1,15 @@
+{
+  "name": "ccr-init",
+  "properties": {
+      "image": "$containerRegistryUrl/ccr-init@$digest",
+      "command": [
+          "/bin/bash",
+          "setup-iptables.sh",
+          "--mode",
+          "$mode"
+      ],
+      "securityContext": {
+          "privileged": "true"
+      }
+  }
+}

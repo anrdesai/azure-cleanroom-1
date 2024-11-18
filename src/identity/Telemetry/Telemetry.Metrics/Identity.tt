@@ -1,0 +1,18 @@
+<#@
+    template debug="true" hostspecific="true" language="C#" #><#@
+    output extension="codegen.cs" #><#@
+    include file="$(T4Include)\MetricsGenerator.ttinclude" #><#
+
+    //
+    // Generates code to create a metric event for the service -
+    // Microsoft.Azure.CleanRoomService.Telemetry.Metrics.ServiceMetric
+    //
+    // We need to pass in the root namespace explicitly because the Visual Studio designer tooling
+    // doesn't pick up the RootNamespace property from the project file.
+    //
+    // This value needs to be kept consistent with the value in the project file that is consumed
+    // by msbuild as part of the build process. Please ensure that you update the value in the
+    // project file as well if you modify this.
+    //
+    GenerateMetrics(rootNamespace: "Microsoft.Azure.IdentitySidecar.Telemetry");
+#>

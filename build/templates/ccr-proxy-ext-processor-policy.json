@@ -1,0 +1,29 @@
+{
+  "name": "ccr-proxy-ext-processor",
+  "containerImage": "$containerRegistryUrl/ccr-proxy-ext-processor@$digest",
+  "command": [
+    "/bin/sh",
+    "-c",
+    "./run.sh"
+  ],
+  "environmentVariables": [
+    {
+        "name": "PORT",
+        "value": "8281",
+        "strategy": "string"
+    },
+    {
+      "name": "BUNDLE_RESOURCE_PATH",
+      "value": "$policyBundleUrl",
+      "strategy": "string"
+    },
+    {
+      "name": "CCR_POLICY_ALLOW_ALL",
+      "value": "$allowAll",
+      "strategy": "string"
+    }
+  ],
+"securityContext": {
+      "privileged": "true"
+  }
+}

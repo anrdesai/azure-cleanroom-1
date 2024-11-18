@@ -1,0 +1,12 @@
+{
+  "name": "ccr-proxy",
+  "containerImage": "$containerRegistryUrl/ccr-proxy@$digest",
+  "environmentVariables": [],
+  "command": [
+    "/bin/sh",
+    "bootstrap.sh"
+  ],
+  "securityContext": {
+    "privileged": "true"
+  }
+}

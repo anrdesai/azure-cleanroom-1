@@ -1,0 +1,39 @@
+{
+  "name": "$applicationName-code-launcher",
+  "properties": {
+    "image": "$containerRegistryUrl/code-launcher@$digest",
+    "command": [
+      "./code_launcher.py",
+      "--export-telemetry-path",
+      "/mnt/remote",
+      "--application-name",
+      "$applicationName"
+    ],
+    "ports": [],
+    "environmentVariables": [
+        {
+            "name": "APPLICATION_NAME",
+            "value": "$applicationName"
+        }
+    ],
+    "resources": {
+      "requests": {
+        "memoryInGB": "$memoryInGB",
+        "cpu": "$cpu"
+      }
+    },
+    "volumeMounts": [
+      {
+        "name": "remotemounts",
+        "mountPath": "/mnt/remote"
+      },
+      {
+        "name": "telemetrymounts",
+        "mountPath": "/mnt/telemetry"
+      }
+    ],
+    "securityContext": {
+      "privileged": true
+    }
+  }
+}

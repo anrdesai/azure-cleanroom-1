@@ -1,0 +1,20 @@
+version: '3.8'
+name: governance-acme
+services:
+  cgs-client-member0:
+    image: cgs-client:latest
+    container_name: acme-cgs-client-member0
+    ports:
+      - "7090:8080"
+  ccr-governance:
+    image: ccr-governance:latest
+    container_name: acme-ccr-governance
+    ports:
+      - "7990:8300"
+    environment:
+      - ccrgovEndpoint=$ccfEndpoint
+      - insecure_mountpoint=/app/insecure-virtual/
+      - INSECURE_VIRTUAL_ENVIRONMENT=true
+    volumes:
+      - ../insecure-virtual:/app/insecure-virtual:ro
+      - ./sandbox_common:/app/sandbox_common:ro

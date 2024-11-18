@@ -1,0 +1,142 @@
+﻿@model RuntimeOptionsViewModel
+@{
+    ViewData["Title"] = "Runtime Options";
+}
+
+<h2>Runtime Options</h2>
+<h3>Logging</h3>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Status</th>
+            <th>Action</th>
+            <th>Open Proposals</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <pre>@Model.Logging.Status</pre>
+            </td>
+            <td>
+                @if (@Model.Logging.ProposalIds != null && @Model.Logging.ProposalIds.Any())
+                {
+                    <p><i>Proposals pending</i></p>
+                }
+                else if (@Model.Logging.Status == "enabled")
+                {
+                    <p>
+                        <a asp-controller="Contracts"
+                           asp-action="DisableLogging" asp-route-id="@Model.Id">Propose Disable Logging</a>
+                    </p>
+                }
+                else if (@Model.Telemetry.Status == "disabled")
+                {
+                    <p>
+                        <a asp-controller="Contracts"
+                           asp-action="EnableLogging" asp-route-id="@Model.Id">Propose Enable Logging</a>
+                    </p>
+                }
+            </td>
+            <td>
+                @if (@Model.Logging.ProposalIds != null)
+                {
+                    @foreach (var proposalId in @Model.Logging.ProposalIds)
+                    {
+                        <p>
+                            <a asp-controller="Proposals"
+                               asp-action="Detail" asp-route-proposalId="@proposalId">@proposalId</a>
+                        </p>
+                    }
+                }
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<h3>Telemetry</h3>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Status</th>
+            <th>Action</th>
+            <th>Open Proposals</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <pre>@Model.Telemetry.Status</pre>
+            </td>
+            <td>
+                @if (@Model.Telemetry.ProposalIds != null && @Model.Telemetry.ProposalIds.Any())
+                {
+                    <p><i>Proposals pending</i></p>
+                }
+                else if (@Model.Telemetry.Status == "enabled")
+                {
+                    <p>
+                        <a asp-controller="Contracts"
+                           asp-action="DisableTelemetry" asp-route-id="@Model.Id">Propose Disable Telemetry</a>
+                    </p>
+                }
+                else if (@Model.Telemetry.Status == "disabled")
+                {
+                    <p>
+                        <a asp-controller="Contracts"
+                           asp-action="EnableTelemetry" asp-route-id="@Model.Id">Propose Enable Telemetry</a>
+                    </p>
+                }
+            </td>
+            <td>
+                @if (@Model.Telemetry.ProposalIds != null)
+                {
+                    @foreach (var proposalId in @Model.Telemetry.ProposalIds)
+                    {
+                        <p>
+                            <a asp-controller="Proposals"
+                               asp-action="Detail" asp-route-proposalId="@proposalId">@proposalId</a>
+                        </p>
+                    }
+                }
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<h3>Execution</h3>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <pre>@Model.Execution.Status</pre>
+            </td>
+            <td>
+                @if (@Model.Execution.Status == "enabled")
+                {
+                    <p>
+                        <a asp-controller="Contracts"
+                           asp-action="DisableExecution" asp-route-id="@Model.Id">Disable Execution</a>
+                    </p>
+                } else if (@Model.Execution.Status == "disabled")
+                {
+                    <p>
+                        <a asp-controller="Contracts"
+                           asp-action="EnableExecution" asp-route-id="@Model.Id">Enable Execution</a>
+                    </p>
+                    if (@Model.Execution.Reason?.Message != null)
+                    {
+                        <p><i>@Model.Execution.Reason.Message</i></p>
+                    }
+
+                }
+            </td>
+        </tr>
+    </tbody>
+</table>

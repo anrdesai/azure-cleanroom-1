@@ -1,0 +1,9 @@
+**.o
+/azmount
+/remotefs
+
+/bin
+/docker/skr/bin
+/docker/encfs/bin
+/tools/get-snp-report/bin
+__pycache__

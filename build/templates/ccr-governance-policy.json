@@ -1,0 +1,33 @@
+{
+  "name": "ccr-governance",
+  "containerImage": "$containerRegistryUrl/ccr-governance@$digest",
+  "command": [],
+  "environmentVariables": [
+    {
+      "name": "ccrgovEndpoint",
+      "value": "$cgsEndpoint",
+      "strategy": "string"
+    },
+    {
+      "name": "ccrgovApiPathPrefix",
+      "value": "app/contracts/$contractId",
+      "strategy": "string"
+    },
+    {
+      "name": "serviceCert",
+      "value": "$serviceCertBase64",
+      "strategy": "string"
+    }
+  ],
+  "mounts": [
+    {
+      "name": "uds",
+      "mountPath": "/mnt/uds",
+      "mountType": "emptyDir",
+      "readOnly": false
+    }
+  ],
+  "securityContext": {
+    "privileged": "true"
+  }
+}

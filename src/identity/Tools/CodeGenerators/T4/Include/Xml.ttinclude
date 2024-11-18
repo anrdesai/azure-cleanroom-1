@@ -1,0 +1,108 @@
+<#
+// T4 templates are very sensitive to spacing. The overall layout typically looks odd, if the
+// generated code is to be properly indented. Thus, nearly every source indent and blank line here
+// (or lack thereof) are significant. Be aware that trailing whitespace in a line that ends a
+// control block can cause a blank line to appear before the next line.
+#>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="System.Xml.dll" #>
+<#@ assembly name="System.Xml.Linq.dll" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text.RegularExpressions" #>
+<#@ import namespace="System.Xml" #>
+<#@ import namespace="System.Xml.Linq" #>
+<#+
+    /// <summary>
+    /// T4 class capturing properties from the XML nodes that are consumed for generating the
+    /// output.
+    /// </summary>
+    internal class _XmlNode
+    {
+        /// <summary>
+        /// Regular expression to parse parameter strings from the message.
+        /// </summary>
+        private static Regex ParameterRegex =
+            new Regex(
+                @"%[^%]*?;",
+                RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
+        public string Name { get; private set; }
+
+        public int Code { get; private set; }
+
+        public Dictionary<string, string> Element { get; private set; }
+
+        public List<string> Parameters { get; private set; }
+
+        public Dictionary<string, string> TagsDict { get; private set; }
+
+        /// <summary>
+        /// Enumerates XMLs in specified folder, parses each XML file and generates an instance
+        /// <see cref="_XmlNode"/> for each node.
+        /// </summary>
+        /// <param name="xmlFolder">Folder in which the XML files reside.</param>
+        /// <param name="nodeName">Name of the XML nodes to be parsed.</param>
+        /// <returns>Collection of <see cref="_XmlNode"/> objects.</returns>
+        public static List<_XmlNode> Enumerate(
+            string xmlFolder,
+            string nodeName,
+            string nameElement,
+            string codeElement,
+            string tagsElement,
+            List<string> resourceStringElements = null,
+            List<string> additionalElements = null)
+        {
+            resourceStringElements = resourceStringElements ?? new List<string>();
+            additionalElements = additionalElements ?? new List<string>();
+
+            string[] xmlFiles = Directory.GetFiles(xmlFolder);
+            var nodes = new List<_XmlNode>();
+            foreach (var xmlFile in xmlFiles)
+            {
+                XDocument eventsDoc = XDocument.Load(xmlFile);
+                foreach (var item in eventsDoc.Descendants(nodeName))
+                {
+                    var eventNode = new _XmlNode
+                    {
+                        Name = item.Element(nameElement).Value,
+                        Code = int.Parse(item.Element(codeElement).Value),
+                        Element = new Dictionary<string, string>(),
+                        Parameters = new List<string>(),
+                        TagsDict = new Dictionary<string, string>()
+                    };
+
+                    var parameters = new HashSet<string>();
+                    foreach (var element in resourceStringElements)
+                    {
+                        eventNode.Element[element] = item.Element(element).Value;
+                        foreach (Match param in ParameterRegex.Matches(eventNode.Element[element]))
+                        {
+                            parameters.Add(param.Value.Substring(1, param.Length - 2));
+                        }
+                    }
+
+                    eventNode.Parameters.AddRange(parameters.ToList());
+
+                    foreach (var element in additionalElements)
+                    {
+                        if (item.Element(element) != null)
+                        {
+                            eventNode.Element[element] = item.Element(element).Value;
+                        }
+                    }
+
+                    if (item.Element("Tags") != null)
+                    {
+                        eventNode.TagsDict = item.Element("Tags")?.Descendants().ToDictionary(x => x?.Name.ToString(), x => x?.Value);
+                    }
+
+                    nodes.Add(eventNode);
+                }
+            }
+
+            return nodes;
+        }
+    }
+#>

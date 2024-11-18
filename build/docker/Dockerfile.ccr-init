@@ -1,0 +1,14 @@
+FROM cleanroombuild.azurecr.io/mirror/docker/library/soarinferret/iptablesproxy
+
+WORKDIR /root
+
+# Install prerequisities.
+RUN apk update && apk upgrade && apk add bash
+
+# Copy scripts for setting up the CCR for sandboxing.
+COPY src/init/iptables-rules/setup-iptables-no-network.sh .
+RUN chmod +x setup-iptables-no-network.sh
+COPY src/init/iptables-rules/setup-iptables-proxy.sh .
+RUN chmod +x setup-iptables-proxy.sh
+COPY src/init/iptables-rules/setup-iptables.sh .
+RUN chmod +x setup-iptables.sh

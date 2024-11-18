@@ -1,0 +1,105 @@
+﻿@model ContractViewModel
+@{
+    ViewData["Title"] = "Contract Details";
+}
+
+<h2>Contract Details</h2>
+@{
+    if (@Model.State == "Draft")
+    {
+        <p><a asp-controller="Contracts" asp-action="Propose" asp-route-id="@Model.Id" asp-route-version="@Model.Version">Propose Contract</a></p>
+    }
+    else if (Model.State == "Proposed")
+    {
+        <p>
+            <a asp-controller="Contracts" asp-action="VoteAccept" asp-route-id="@Model.Id" asp-route-proposalId="@Model.ProposalId">Accept Proposal</a>
+            <a asp-controller="Contracts" asp-action="VoteReject" asp-route-id="@Model.Id" asp-route-proposalId="@Model.ProposalId">Reject Proposal</a>
+        </p>
+    } else if (Model.State == "Accepted")
+    {
+        <p>
+            <a asp-controller="Contracts" asp-action="RuntimeOptionsDetail" asp-route-id="@Model.Id">Runtime Options</a>
+        </p>
+    }
+}
+<table class="table">
+<thead>
+    <tr>
+        <th scope="col">Property</th>
+        <th scope="col">Value</th>
+    </tr>
+</thead>
+<tbody>
+    <tr>
+        <th scope="row">id</th>
+        <td>@Model.Id</td>
+    </tr>
+    <tr>
+        <th scope="row">state</th>
+            <td>
+                @Model.State @{
+                    if (Model.State == "Proposed")
+                    {
+                        <pre>(proposalId: <a asp-controller="Proposals" asp-action="Detail" asp-route-proposalId="@Model.ProposalId" asp-route-version="@Model.Version">@Model.ProposalId</a>)</pre>
+                    }
+                }
+            </td>
+    </tr>
+    <tr>
+        <th scope="row">version</th>
+        <td>@Model.Version</td>
+    </tr>
+    <tr>
+        <th scope="row">policy</th>
+            <td>
+                <a asp-controller="Contracts" asp-action="PolicyDetail" asp-route-id="@Model.Id">Policy</a>
+            </td>
+    </tr>
+    <tr>
+        <th scope="row">deployment spec</th>
+        <td>
+            <a asp-controller="Contracts" asp-action="DeploymentSpecDetail" asp-route-id="@Model.Id">Deployment Spec</a>
+        </td>
+    </tr>
+        <tr>
+            <th scope="row">events</th>
+            <td>
+                <a asp-controller="Contracts" asp-action="EventsDetail" asp-route-id="@Model.Id">Events</a>
+            </td>
+        </tr>
+        <tr>
+        <th scope="row">content</th>
+        <td><pre>@Model.Data</pre></td>
+    </tr>
+</tbody>
+</table>
+
+@if (Model.FinalVotes != null && Model.FinalVotes.Any())
+{
+    <h3>Final Votes</h3>
+    <table class="table table-hover w-auto">
+        <thead>
+            <tr>
+                <th>MemberId</th>
+                <th>Name</th>
+                <th>Vote</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var vote in @Model.FinalVotes)
+            {
+                <tr>
+                    <td>
+                        <pre>@vote.MemberId</pre>
+                    </td>
+                    <td>
+                        <pre>@vote.MemberName</pre>
+                    </td>
+                    <td>
+                        <pre>@vote.Vote</pre>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

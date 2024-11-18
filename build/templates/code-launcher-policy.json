@@ -1,0 +1,35 @@
+{
+  "name": "$applicationName-code-launcher",
+  "containerImage": "$containerRegistryUrl/code-launcher@$digest",
+  "command": [
+    "./code_launcher.py",
+    "--export-telemetry-path",
+    "/mnt/remote",
+    "--application-name",
+    "$applicationName"
+  ],
+  "environmentVariables": [
+    {
+        "name": "APPLICATION_NAME",
+        "value": ".*",
+        "strategy": "re2"
+      }
+  ],
+  "mounts": [
+  {
+    "name": "remotemounts",
+    "mountPath": "/mnt/remote",
+    "mountType": "emptyDir",
+    "readOnly": false
+  },
+  {
+    "name": "telemetrymounts",
+    "mountPath": "/mnt/telemetry",
+    "mountType": "emptyDir",
+    "readOnly": false
+  }
+  ],
+  "securityContext": {
+    "privileged": "true"
+  }
+  }

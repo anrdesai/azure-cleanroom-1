@@ -1,0 +1,32 @@
+{
+  "image": "mcr.microsoft.com/devcontainers/universal:2",
+  "features": {
+    "ghcr.io/devcontainers/features/powershell:1": {
+      "modules": "powershell-yaml"
+    },
+    "ghcr.io/devcontainers/features/azure-cli:1": {
+      "extensions": "confcom,managedccfs"
+    },
+    "ghcr.io/dhoeric/features/oras:1": {}
+  },
+  "customizations": {
+    // Configure properties specific to VS Code.
+    "vscode": {
+      // Add the IDs of extensions you want installed when the container is created.
+      "extensions": [
+        "ms-azuretools.vscode-docker",
+        "ms-dotnettools.csdevkit",
+        "yzhang.markdown-all-in-one",
+        "42crunch.vscode-openapi",
+        "esbenp.prettier-vscode",
+        "dbaeumer.vscode-eslint",
+        "ms-python.black-formatter",
+        "github.vscode-github-actions",
+        "bierner.markdown-mermaid",
+        "vscode-icons-team.vscode-icons"
+      ]
+    }
+  },
+  "containerEnv": { "DEVCONTAINER": "true" },
+  "postCreateCommand": "pwsh -c 'wget -O azcopy_v10.tar.gz https://aka.ms/downloadazcopy-v10-linux && tar -xf azcopy_v10.tar.gz --strip-components=1 && rm azcopy_v10.tar.gz'; pwsh -c 'sudo mv azcopy /usr/bin'"
+}

@@ -1,0 +1,533 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "location": {
+      "defaultValue": "[resourceGroup().location]",
+      "metadata": {
+        "description": "Location for all resources."
+      },
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "apiVersion": "2023-05-01",
+      "location": "[parameters('location')]",
+      "name": "collab1-deployment",
+      "properties": {
+        "confidentialComputeProperties": {
+          "ccePolicy": "cGFja2FnZSBwb2xpY3kKCmFwaV9zdm4gOj0gIjAuMTAuMCIKCm1vdW50X2RldmljZSA6PSB7ImFsbG93ZWQiOiB0cnVlfQptb3VudF9vdmVybGF5IDo9IHsiYWxsb3dlZCI6IHRydWV9CmNyZWF0ZV9jb250YWluZXIgOj0geyJhbGxvd2VkIjogdHJ1ZSwgImVudl9saXN0IjogbnVsbCwgImFsbG93X3N0ZGlvX2FjY2VzcyI6IHRydWV9CnVubW91bnRfZGV2aWNlIDo9IHsiYWxsb3dlZCI6IHRydWV9IAp1bm1vdW50X292ZXJsYXkgOj0geyJhbGxvd2VkIjogdHJ1ZX0KZXhlY19pbl9jb250YWluZXIgOj0geyJhbGxvd2VkIjogdHJ1ZSwgImVudl9saXN0IjogbnVsbH0KZXhlY19leHRlcm5hbCA6PSB7ImFsbG93ZWQiOiB0cnVlLCAiZW52X2xpc3QiOiBudWxsLCAiYWxsb3dfc3RkaW9fYWNjZXNzIjogdHJ1ZX0Kc2h1dGRvd25fY29udGFpbmVyIDo9IHsiYWxsb3dlZCI6IHRydWV9CnNpZ25hbF9jb250YWluZXJfcHJvY2VzcyA6PSB7ImFsbG93ZWQiOiB0cnVlfQpwbGFuOV9tb3VudCA6PSB7ImFsbG93ZWQiOiB0cnVlfQpwbGFuOV91bm1vdW50IDo9IHsiYWxsb3dlZCI6IHRydWV9CmdldF9wcm9wZXJ0aWVzIDo9IHsiYWxsb3dlZCI6IHRydWV9CmR1bXBfc3RhY2tzIDo9IHsiYWxsb3dlZCI6IHRydWV9CnJ1bnRpbWVfbG9nZ2luZyA6PSB7ImFsbG93ZWQiOiB0cnVlfQpsb2FkX2ZyYWdtZW50IDo9IHsiYWxsb3dlZCI6IHRydWV9CnNjcmF0Y2hfbW91bnQgOj0geyJhbGxvd2VkIjogdHJ1ZX0Kc2NyYXRjaF91bm1vdW50IDo9IHsiYWxsb3dlZCI6IHRydWV9Cg=="
+        },
+        "containers": [
+          {
+            "name": "identity-sidecar",
+            "properties": {
+              "command": [
+                "dotnet",
+                "Microsoft.Azure.CleanRoomSidecar.Identity.IdentitySidecar.dll"
+              ],
+              "environmentVariables": [
+                {
+                  "name": "IdentitySideCarArgs",
+                  "value": "eyJJZGVudGl0aWVzIjogeyJBcHBsaWNhdGlvbklkZW50aXRpZXMiOiBbeyJDbGllbnRJZCI6ICIxYmIxMGQwOS1iNmUxLTRhYWQtYTY2My0yODAyMjQzZDdiMzkiLCAiQ3JlZGVudGlhbCI6IHsiQ3JlZGVudGlhbFR5cGUiOiAiRmVkZXJhdGVkQ3JlZGVudGlhbCIsICJGZWRlcmF0aW9uQ29uZmlndXJhdGlvbiI6IHsiSWRUb2tlbkVuZHBvaW50IjogImh0dHA6Ly9sb2NhbGhvc3Q6ODMwMCIsICJTdWJqZWN0IjogImNvbGxhYjEiLCAiQXVkaWVuY2UiOiAiYXBpOi8vQXp1cmVBRFRva2VuRXhjaGFuZ2UifX19LCB7IkNsaWVudElkIjogIjQ4ZDhiZjgwLWM5OTEtNDE2OS04NWNkLWZmNTljYmUxMmFlYSIsICJDcmVkZW50aWFsIjogeyJDcmVkZW50aWFsVHlwZSI6ICJGZWRlcmF0ZWRDcmVkZW50aWFsIiwgIkZlZGVyYXRpb25Db25maWd1cmF0aW9uIjogeyJJZFRva2VuRW5kcG9pbnQiOiAiaHR0cDovL2xvY2FsaG9zdDo4MzAwIiwgIlN1YmplY3QiOiAiY29sbGFiMSIsICJBdWRpZW5jZSI6ICJhcGk6Ly9BenVyZUFEVG9rZW5FeGNoYW5nZSJ9fX1dfX0="
+                }
+              ],
+              "image": "mcr.microsoft.com/cleanroom/identity@sha256:771d81de4bf2ff299094a4832bb10bae9e20fe4daf78beb4a7872ad075fc6866",
+              "ports": [
+                {
+                  "port": 8290
+                }
+              ],
+              "resources": {
+                "requests": {
+                  "cpu": 0.2,
+                  "memoryInGB": 0.5
+                }
+              },
+              "securityContext": {
+                "privileged": "true"
+              }
+            }
+          },
+          {
+            "name": "publisher-input-blobfuse-container",
+            "properties": {
+              "command": [
+                "python3.10",
+                "./blobfuse-launcher.py",
+                "--skr-port",
+                "8284",
+                "--imds-port",
+                "8290",
+                "--read-only",
+                "--mount-path",
+                "/mnt/remote/publisher-input"
+              ],
+              "environmentVariables": [
+                {
+                  "name": "AZURE_STORAGE_ACCOUNT",
+                  "value": "gsdcgusikltqzsa"
+                },
+                {
+                  "name": "AZURE_STORAGE_ACCOUNT_CONTAINER",
+                  "value": "publisher-input"
+                },
+                {
+                  "name": "MAA_ENDPOINT",
+                  "value": "sharedneu.neu.attest.azure.net"
+                },
+                {
+                  "name": "AKV_ENDPOINT",
+                  "value": "gsdcgusikltqzkv.vault.azure.net"
+                },
+                {
+                  "name": "KID",
+                  "value": "88dc1597-collab1"
+                },
+                {
+                  "name": "CLIENT_ID",
+                  "value": "48d8bf80-c991-4169-85cd-ff59cbe12aea"
+                },
+                {
+                  "name": "TENANT_ID",
+                  "value": "72f988bf-86f1-41af-91ab-2d7cd011db47"
+                },
+                {
+                  "name": "WRAPPED_DEK_SECRET",
+                  "value": "wrapped-publisher-input-dek"
+                },
+                {
+                  "name": "WRAPPED_DEK_AKV_ENDPOINT",
+                  "value": "https://gsdcgusikltqzkv.vault.azure.net/"
+                },
+                {
+                  "name": "OTEL_EXPORTER_OTLP_ENDPOINT",
+                  "value": "http://localhost:4317"
+                },
+                {
+                  "name": "OTEL_EXPORTER_OTLP_PROTOCOL",
+                  "value": "grpc"
+                }
+              ],
+              "image": "mcr.microsoft.com/cleanroom/blobfuse-launcher@sha256:9f501bc4551cc4766e05eb7df1486a808615eb256ada001afab6251715cf5ea4",
+              "ports": [
+                {
+                  "port": 8292
+                }
+              ],
+              "resources": {
+                "requests": {
+                  "cpu": 0.2,
+                  "memoryInGB": 0.5
+                }
+              },
+              "securityContext": {
+                "privileged": "true"
+              },
+              "volumeMounts": [
+                {
+                  "mountPath": "/mnt/remote",
+                  "name": "remotemounts"
+                },
+                {
+                  "mountPath": "/mnt/telemetry",
+                  "name": "telemetrymounts"
+                }
+              ]
+            }
+          },
+          {
+            "name": "consumer-output-blobfuse-container",
+            "properties": {
+              "command": [
+                "python3.10",
+                "./blobfuse-launcher.py",
+                "--skr-port",
+                "8284",
+                "--imds-port",
+                "8290",
+                "--no-read-only",
+                "--mount-path",
+                "/mnt/remote/consumer-output"
+              ],
+              "environmentVariables": [
+                {
+                  "name": "AZURE_STORAGE_ACCOUNT",
+                  "value": "nwolvwnapfcyisa"
+                },
+                {
+                  "name": "AZURE_STORAGE_ACCOUNT_CONTAINER",
+                  "value": "consumer-output"
+                },
+                {
+                  "name": "MAA_ENDPOINT",
+                  "value": "sharedneu.neu.attest.azure.net"
+                },
+                {
+                  "name": "AKV_ENDPOINT",
+                  "value": "nwolvwnapfcyikv.vault.azure.net"
+                },
+                {
+                  "name": "KID",
+                  "value": "2174f252-collab1"
+                },
+                {
+                  "name": "CLIENT_ID",
+                  "value": "1bb10d09-b6e1-4aad-a663-2802243d7b39"
+                },
+                {
+                  "name": "TENANT_ID",
+                  "value": "72f988bf-86f1-41af-91ab-2d7cd011db47"
+                },
+                {
+                  "name": "WRAPPED_DEK_SECRET",
+                  "value": "wrapped-consumer-output-dek"
+                },
+                {
+                  "name": "WRAPPED_DEK_AKV_ENDPOINT",
+                  "value": "https://nwolvwnapfcyikv.vault.azure.net/"
+                },
+                {
+                  "name": "OTEL_EXPORTER_OTLP_ENDPOINT",
+                  "value": "http://localhost:4317"
+                },
+                {
+                  "name": "OTEL_EXPORTER_OTLP_PROTOCOL",
+                  "value": "grpc"
+                }
+              ],
+              "image": "mcr.microsoft.com/cleanroom/blobfuse-launcher@sha256:9f501bc4551cc4766e05eb7df1486a808615eb256ada001afab6251715cf5ea4",
+              "ports": [
+                {
+                  "port": 8293
+                }
+              ],
+              "resources": {
+                "requests": {
+                  "cpu": 0.2,
+                  "memoryInGB": 0.5
+                }
+              },
+              "securityContext": {
+                "privileged": "true"
+              },
+              "volumeMounts": [
+                {
+                  "mountPath": "/mnt/remote",
+                  "name": "remotemounts"
+                },
+                {
+                  "mountPath": "/mnt/telemetry",
+                  "name": "telemetrymounts"
+                }
+              ]
+            }
+          },
+          {
+            "name": "application-telemetry-blobfuse-container",
+            "properties": {
+              "command": [
+                "python3.10",
+                "./blobfuse-launcher.py",
+                "--skr-port",
+                "8284",
+                "--imds-port",
+                "8290",
+                "--no-read-only",
+                "--mount-path",
+                "/mnt/remote/application-telemetry"
+              ],
+              "environmentVariables": [
+                {
+                  "name": "AZURE_STORAGE_ACCOUNT",
+                  "value": "gsdcgusikltqzsa"
+                },
+                {
+                  "name": "AZURE_STORAGE_ACCOUNT_CONTAINER",
+                  "value": "application-telemetry"
+                },
+                {
+                  "name": "MAA_ENDPOINT",
+                  "value": "sharedneu.neu.attest.azure.net"
+                },
+                {
+                  "name": "AKV_ENDPOINT",
+                  "value": "gsdcgusikltqzkv.vault.azure.net"
+                },
+                {
+                  "name": "KID",
+                  "value": "88dc1597-collab1"
+                },
+                {
+                  "name": "CLIENT_ID",
+                  "value": "48d8bf80-c991-4169-85cd-ff59cbe12aea"
+                },
+                {
+                  "name": "TENANT_ID",
+                  "value": "72f988bf-86f1-41af-91ab-2d7cd011db47"
+                },
+                {
+                  "name": "WRAPPED_DEK_SECRET",
+                  "value": "wrapped-application-telemetry-dek"
+                },
+                {
+                  "name": "WRAPPED_DEK_AKV_ENDPOINT",
+                  "value": "https://gsdcgusikltqzkv.vault.azure.net/"
+                },
+                {
+                  "name": "OTEL_EXPORTER_OTLP_ENDPOINT",
+                  "value": "http://localhost:4317"
+                },
+                {
+                  "name": "OTEL_EXPORTER_OTLP_PROTOCOL",
+                  "value": "grpc"
+                }
+              ],
+              "image": "mcr.microsoft.com/cleanroom/blobfuse-launcher@sha256:9f501bc4551cc4766e05eb7df1486a808615eb256ada001afab6251715cf5ea4",
+              "ports": [
+                {
+                  "port": 8294
+                }
+              ],
+              "resources": {
+                "requests": {
+                  "cpu": 0.2,
+                  "memoryInGB": 0.5
+                }
+              },
+              "securityContext": {
+                "privileged": "true"
+              },
+              "volumeMounts": [
+                {
+                  "mountPath": "/mnt/remote",
+                  "name": "remotemounts"
+                },
+                {
+                  "mountPath": "/mnt/telemetry",
+                  "name": "telemetrymounts"
+                }
+              ]
+            }
+          },
+          {
+            "name": "code-launcher",
+            "properties": {
+              "command": [
+                "./code_launcher.py",
+                "--export-telemetry-path",
+                "/mnt/remote",
+                "--application-name",
+                "demo-app",
+                "--",
+                "--name",
+                "demo-app",
+                "-v=/mnt/remote:/mnt/remote",
+                "-e OUTPUT_LOCATION=/mnt/remote/output -e INPUT_LOCATION=/mnt/remote/input -e CODE=cGFja2FnZSBtYWluCgppbXBvcnQgKAogICAiY29tcHJlc3MvZ3ppcCIKICAgImZtdCIKICAgImlvIgogICAib3MiCikKCmZ1bmMgbWFpbigpIHsKCiAgIGZtdC5QcmludGxuKCJPcGVuaW5nIHRoZSBpbnB1dCBmaWxlLiIpCiAgIGlucHV0TG9jYXRpb24gOj0gb3MuR2V0ZW52KCJJTlBVVF9MT0NBVElPTiIpCiAgIGlucHV0RmlsZSwgZXJyIDo9IG9zLk9wZW4oaW5wdXRMb2NhdGlvbiArICIvaW5wdXQudHh0IikKICAgaWYgZXJyICE9IG5pbCB7CiAgICAgIHBhbmljKGVycikKICAgfQogICBkZWZlciBpbnB1dEZpbGUuQ2xvc2UoKQoKICAgZm10LlByaW50bG4oIkNyZWF0aW5nIHRoZSBvdXRwdXQgZmlsZS4iKQogICBvdXRwdXRMb2NhdGlvbiA6PSBvcy5HZXRlbnYoIk9VVFBVVF9MT0NBVElPTiIpCiAgIG91dHB1dEZpbGUsIGVyciA6PSBvcy5DcmVhdGUob3V0cHV0TG9jYXRpb24gKyAiL291dHB1dC5neiIpCiAgIGlmIGVyciAhPSBuaWwgewogICAgICBwYW5pYyhlcnIpCiAgIH0KICAgZGVmZXIgb3V0cHV0RmlsZS5DbG9zZSgpCgogICBnemlwV3JpdGVyIDo9IGd6aXAuTmV3V3JpdGVyKG91dHB1dEZpbGUpCiAgIGRlZmVyIGd6aXBXcml0ZXIuQ2xvc2UoKQoKICAgZm10LlByaW50bG4oIkNvbXByZXNzaW5nIHRoZSBmaWxlLiIpCiAgIF8sIGVyciA9IGlvLkNvcHkoZ3ppcFdyaXRlciwgaW5wdXRGaWxlKQogICBpZiBlcnIgIT0gbmlsIHsKICAgICAgcGFuaWMoZXJyKQogICB9CgogICBmbXQuUHJpbnRsbigiRmlsZSBjb21wcmVzc2VkIHN1Y2Nlc3NmdWxseS4iKQp9",
+                "docker.io/golang@sha256:f43c6f049f04cbbaeb28f0aad3eea15274a7d0a7899a617d0037aec48d7ab010",
+                "bash",
+                "-c",
+                "'echo $CODE | base64 -d > main.go; go run main.go'"
+              ],
+              "environmentVariables": [],
+              "image": "mcr.microsoft.com/cleanroom/code-launcher@sha256:1643014cdad3401e43ecac0eaa4aba1e26729556b0cc9e4914b21b589b14d7dd",
+              "ports": [],
+              "resources": {
+                "requests": {
+                  "cpu": 0.5,
+                  "memoryInGB": 4
+                }
+              },
+              "securityContext": {
+                "privileged": true
+              },
+              "volumeMounts": [
+                {
+                  "mountPath": "/mnt/remote",
+                  "name": "remotemounts"
+                },
+                {
+                  "mountPath": "/mnt/telemetry",
+                  "name": "telemetrymounts"
+                }
+              ]
+            }
+          },
+          {
+            "name": "otel-collector",
+            "properties": {
+              "command": [],
+              "environmentVariables": [],
+              "image": "mcr.microsoft.com/cleanroom/otel-collector@sha256:f5f56a188bb732678fec13d2ea497088824ae5f7984bcd734bf6422bbdc7f03b",
+              "ports": [
+                {
+                  "port": 4317
+                },
+                {
+                  "port": 4318
+                }
+              ],
+              "resources": {
+                "requests": {
+                  "cpu": 0.2,
+                  "memoryInGB": 0.5
+                }
+              },
+              "securityContext": {
+                "privileged": "false"
+              },
+              "volumeMounts": [
+                {
+                  "mountPath": "/mnt/telemetry",
+                  "name": "telemetrymounts"
+                }
+              ]
+            }
+          },
+          {
+            "name": "ccr-governance",
+            "properties": {
+              "environmentVariables": [
+                {
+                  "name": "ccrgovEndpoint",
+                  "value": "https://host.docker.internal:9081"
+                },
+                {
+                  "name": "ccrgovApiPathPrefix",
+                  "value": "app/contracts/collab1"
+                },
+                {
+                  "name": "serviceCert",
+                  "value": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJ2akNDQVVTZ0F3SUJBZ0lSQUlmNXNBVlVjbG90MzRUREQ5eFdkaW93Q2dZSUtvWkl6ajBFQXdNd0ZqRVUKTUJJR0ExVUVBd3dMUTBOR0lGTmxjblpwWTJVd0hoY05NalF3TmpBeE1ESTBNRFUzV2hjTk1qUXdOekF4TURJMApNRFUyV2pBV01SUXdFZ1lEVlFRRERBdERRMFlnVTJWeWRtbGpaVEIyTUJBR0J5cUdTTTQ5QWdFR0JTdUJCQUFpCkEySUFCQlEvYkpkSGl0ZVFzNlFnTXpscjdRa3p3Nm5Ick5TejVjdzh0SHp3MG1GSDhIbG5rK1NqOXlzU3ZTcjAKYitmdHNNQ25jWHNUT0NOSStKUlluVTgyVG1FS1Y0VkNkVktSQ2ZqWjlma25WQ0tGQkRUWnFNQmhRanQxL2RHNgo1NEhnd0tOV01GUXdFZ1lEVlIwVEFRSC9CQWd3QmdFQi93SUJBREFkQmdOVkhRNEVGZ1FVR3NCdW1kZGdFWGROClFxK040SXZkcTdsbDVVUXdId1lEVlIwakJCZ3dGb0FVR3NCdW1kZGdFWGROUXErTjRJdmRxN2xsNVVRd0NnWUkKS29aSXpqMEVBd01EYUFBd1pRSXhBTHNZWFJWay9oRVFmb1RiZ21wWFNsSWY1cGhlT1FGNTFGUUdaSWJIZzdOcApWYVdQb05ibzdGVlVXN0Ezdm55UHFRSXdjd1BwS2FxWm4zdG0xZnJpejJJanUxM0I1ZmpJMWlsNUpJdEM0cVdLCkJwcEpteXY4cTFzRnpuSFNGZTRJcjBuLwotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg=="
+                }
+              ],
+              "image": "mcr.microsoft.com/cleanroom/ccr-governance@sha256:2ff17405eff78eba5250d492568029b880ae3f6317929257fbd6b9ac622410fb",
+              "ports": [
+                {
+                  "port": 8300
+                }
+              ],
+              "resources": {
+                "requests": {
+                  "cpu": 0.5,
+                  "memoryInGB": 0.2
+                }
+              },
+              "securityContext": {
+                "privileged": true
+              },
+              "volumeMounts": [
+                {
+                  "mountPath": "/mnt/uds",
+                  "name": "uds"
+                }
+              ]
+            }
+          },
+          {
+            "name": "ccr-attestation",
+            "properties": {
+              "command": [
+                "app",
+                "-socket-address",
+                "/mnt/uds/sock"
+              ],
+              "image": "mcr.microsoft.com/cleanroom/ccr-attestation@sha256:86ded47d0d7eca085617ee4549ab2c05df09b4a23c2e29cd5b6f1372bad6df3e",
+              "resources": {
+                "requests": {
+                  "cpu": 0.5,
+                  "memoryInGB": 0.2
+                }
+              },
+              "securityContext": {
+                "privileged": true
+              },
+              "volumeMounts": [
+                {
+                  "mountPath": "/mnt/uds",
+                  "name": "uds"
+                }
+              ]
+            }
+          },
+          {
+            "name": "skr-sidecar",
+            "properties": {
+              "command": [
+                "/skr.sh"
+              ],
+              "environmentVariables": [
+                {
+                  "name": "SkrSideCarArgs",
+                  "value": "ewogICAiY2VydGNhY2hlIjogewogICAgICAiZW5kcG9pbnQiOiAiYW1lcmljYXMuYWNjY2FjaGUuYXp1cmUubmV0IiwKICAgICAgInRlZV90eXBlIjogIlNldlNucFZNIiwKICAgICAgImFwaV92ZXJzaW9uIjogImFwaS12ZXJzaW9uPTIwMjAtMTAtMTUtcHJldmlldyIKICAgfQp9"
+                },
+                {
+                  "name": "Port",
+                  "value": "8284"
+                },
+                {
+                  "name": "LogFile",
+                  "value": "skr.log"
+                },
+                {
+                  "name": "LogLevel",
+                  "value": "debug"
+                }
+              ],
+              "image": "mcr.microsoft.com/aci/skr@sha256:b584057158c1f700edcdb0b3122628541da450acac48bd80512ee88c34f7649d",
+              "ports": [
+                {
+                  "port": 8284
+                }
+              ],
+              "resources": {
+                "requests": {
+                  "cpu": 0.2,
+                  "memoryInGB": 0.5
+                }
+              },
+              "securityContext": {
+                "privileged": true
+              }
+            }
+          }
+        ],
+        "imageRegistryCredentials": [],
+        "initContainers": [
+          {
+            "name": "ccr-init",
+            "properties": {
+              "command": [
+                "/bin/bash",
+                "setup-iptables.sh"
+              ],
+              "image": "mcr.microsoft.com/cleanroom/ccr-init@sha256:8839a0c347dd4573c3de48a0a0ec018d54a9fe8c12da7eef729145abd4ba0c96",
+              "securityContext": {
+                "privileged": "true"
+              }
+            }
+          }
+        ],
+        "osType": "Linux",
+        "restartPolicy": "Never",
+        "sku": "confidential",
+        "volumes": [
+          {
+            "emptyDir": {},
+            "name": "remotemounts"
+          },
+          {
+            "emptyDir": {},
+            "name": "uds"
+          },
+          {
+            "emptyDir": {},
+            "name": "telemetrymounts"
+          }
+        ]
+      },
+      "type": "Microsoft.ContainerInstance/containerGroups"
+    }
+  ]
+}

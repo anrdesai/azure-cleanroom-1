@@ -1,0 +1,21 @@
+<Project>
+  <PropertyGroup>
+    <!-- Standardize namespace and assembly name across the code. -->
+    <AssemblyName>Microsoft.Azure.CleanRoomSidecar.Identity.$(MsBuildProjectName)</AssemblyName>
+
+    <!--
+      Set the default namespace to be used for naming an embedded resource. This is part of the
+      embedded resource manifest name and is used to resolve the resource at runtime.
+
+      Note that Visual Studio designer tooling doesn't pick up this property from the project file,
+      and we need to pass this explicitly in the .tt files.
+    -->
+    <RootNamespace>Microsoft.Azure.CleanRoomSidecar.Identity</RootNamespace>
+  </PropertyGroup>
+
+  <!--
+    MSBuild stops scanning for Directory.Build.props as soon as one is found. To merge the current Directory.Build.props
+    with any outer level props, the import below is required - https://learn.microsoft.com/en-us/visualstudio/msbuild/customize-by-directory?view=vs-2022#use-case-multi-level-merging
+  -->
+  <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
+</Project>

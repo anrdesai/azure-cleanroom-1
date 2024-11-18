@@ -1,0 +1,31 @@
+[req]
+default_bits = 2048
+default_md = sha256
+prompt = no
+distinguished_name = req_distinguished_name
+x509_extensions = v3_ca
+req_extensions = v3_req
+ 
+[req_distinguished_name]
+C = IN
+CN = ccr-proxy
+
+[v3_ca]
+subjectKeyIdentifier = hash
+authorityKeyIdentifier = keyid:always,issuer:always
+basicConstraints = critical, CA:true, pathlen:0
+keyUsage = critical, digitalSignature, cRLSign, keyCertSign
+
+[v3_req]
+subjectKeyIdentifier = hash
+basicConstraints = critical, CA:false
+keyUsage = digitalSignature, nonRepudiation, keyEncipherment
+extendedKeyUsage = serverAuth
+subjectAltName = @alt_names
+
+[alt_names]
+IP.1 = 0.0.0.0
+IP.1 = 127.0.0.1
+IP.2 = ::1
+DNS.1 = *.cleanroom.local
+DNS.2 = localhost
