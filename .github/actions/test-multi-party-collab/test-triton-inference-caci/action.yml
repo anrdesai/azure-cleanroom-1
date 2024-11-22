@@ -43,7 +43,7 @@ runs:
     - name: Upload results
       uses: actions/upload-artifact@v4
       with:
-          name: results
+          name: results-triton-inference-caci
           path: ./test/onebox/multi-party-collab/triton-inference-server/generated/results
           overwrite: true
       if: ${{ !cancelled() }}
@@ -51,7 +51,7 @@ runs:
     - name: Upload configurations
       uses: actions/upload-artifact@v4
       with:
-          name: configurations
+          name: configurations-triton-inference-caci
           path: ./test/onebox/multi-party-collab/triton-inference-server/generated/configurations
           overwrite: true
       if: ${{ !cancelled() }}
@@ -59,7 +59,7 @@ runs:
     - name: Upload deployments
       uses: actions/upload-artifact@v4
       with:
-          name: deployments
+          name: deployments-triton-inference-caci
           path: ./test/onebox/multi-party-collab/triton-inference-server/generated/deployments
           overwrite: true
       if: ${{ !cancelled() }}
@@ -67,7 +67,7 @@ runs:
     - name: Upload ccf
       uses: actions/upload-artifact@v4
       with:
-          name: ccf
+          name: ccf-triton-inference-caci
           path: ./test/onebox/multi-party-collab/generated/ccf
           overwrite: true
       if: ${{ !cancelled() }}

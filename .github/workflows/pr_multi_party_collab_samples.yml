@@ -215,3 +215,24 @@ jobs:
         with:
           registry-url: ${{ vars.ACR_URL }}
           tag: ${{ github.run_id }}
+
+  # triton-inference-server-caci:
+  #   runs-on: ["self-hosted", "1ES.Pool=azure-cleanroom-public"]
+  #   environment: pr
+  #   needs: [build-containers-caci]
+  #   env:
+  #     AZURE_CLIENT_ID: ${{ vars.AZURE_CLIENT_ID }}
+  #     AZURE_TENANT_ID: ${{ vars.AZURE_TENANT_ID }}
+  #     AZURE_SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+  #     RUN_ID: ${{ github.run_id }}
+  #     JOB_ID: ${{ github.job }}
+  #     COLLAB_FORCE_MANAGED_IDENTITY: "true"
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #       with:
+  #         submodules: recursive
+  #     - name: Run nginx hello test
+  #       uses: ./.github/actions/test-multi-party-collab/test-triton-inference-caci
+  #       with:
+  #         registry-url: ${{ vars.ACR_URL }}
+  #         tag: ${{ github.run_id }}

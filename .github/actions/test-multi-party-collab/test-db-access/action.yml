@@ -53,6 +53,34 @@ runs:
       if: ${{ !cancelled() }}
       run: kubectl logs -l app=virtual-cleanroom --tail=-1 --all-containers --ignore-errors --prefix
 
+    - uses: actions/upload-artifact@v4
+      with:
+          name: results-db-access
+          path: ./test/onebox/multi-party-collab/db-access/generated/results
+          overwrite: true
+      if: ${{ !cancelled() }}
+
+    - uses: actions/upload-artifact@v4
+      with:
+          name: configurations-db-access
+          path: ./test/onebox/multi-party-collab/db-access/generated/configurations
+          overwrite: true
+      if: ${{ !cancelled() }}
+
+    - uses: actions/upload-artifact@v4
+      with:
+          name: deployments-db-access
+          path: ./test/onebox/multi-party-collab/db-access/generated/deployments
+          overwrite: true
+      if: ${{ !cancelled() }}
+
+    - uses: actions/upload-artifact@v4
+      with:
+          name: ccf-db-access
+          path: ./test/onebox/multi-party-collab/generated/ccf
+          overwrite: true
+      if: ${{ !cancelled() }}
+
     - name: Delete resource groups
       shell: pwsh
       if: success()

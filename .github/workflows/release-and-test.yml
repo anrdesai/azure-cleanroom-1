@@ -64,7 +64,6 @@ jobs:
         env:
           CLIENT_ID: ${{ vars.AZURE_CLIENT_ID }}
           TENANT_ID: ${{ vars.AZURE_TENANT_ID }}
-          SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
 
       - name: Create file to track released containers
         run: touch released-containers-internal.txt
@@ -263,7 +262,7 @@ jobs:
       contents: read  # This is required for actions/checkout
     strategy:
       matrix:
-        key-store: [akvpremium] #[mhsm, akvpremium]
+        key-store:  [akvpremium] #[mhsm, akvpremium]
       # Prevent Github from cancelling other jobs of the matrix if one of them fails.
       fail-fast: false
     steps:
@@ -355,3 +354,38 @@ jobs:
         with:
           registry-url: ${{ vars.RELEASE_ACR_NAME }}.azurecr.io/internal/cleanroom
           tag: ${{ inputs.tag || steps.get-short-commit-hash.outputs.tag }}
+
+  # bvt-triton-inference:
+  #   runs-on: ["self-hosted", "1ES.Pool=azure-cleanroom-public"]
+  #   needs: [build, release-to-test]
+  #   environment: test
+  #   env:
+  #     RELEASE_ACR_NAME: ${{ vars.RELEASE_ACR_NAME }}
+  #     AZURE_CLIENT_ID: ${{ vars.AZURE_CLIENT_ID }}
+  #     AZURE_TENANT_ID: ${{ vars.AZURE_TENANT_ID }}
+  #     AZURE_SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+  #     RUN_ID: ${{ github.run_id }}
+  #     JOB_ID: ${{ github.job }}
+  #     USE_PREPROVISIONED_OIDC: "true"
+  #   # Permission needed for logging into Azure - https://github.com/marketplace/actions/azure-login#workflow-examples
+  #   permissions:
+  #     id-token: write
+  #     contents: read  # This is required for actions/checkout
+  #   steps:
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v4
+  #       with:
+  #         submodules: recursive
+  #         fetch-tags: true
+  #         ref: ${{ inputs.tag }}
+
+  #     - name: Generate short commit hash
+  #       if: ${{ inputs.tag == ''}}
+  #       id: get-short-commit-hash
+  #       run: echo "tag=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+
+  #     - name: Run triton-inference test
+  #       uses: ./.github/actions/test-multi-party-collab/test-triton-inference-caci
+  #       with:
+  #         registry-url: ${{ vars.RELEASE_ACR_NAME }}.azurecr.io/internal/cleanroom
+  #         tag: ${{ inputs.tag || steps.get-short-commit-hash.outputs.tag }}

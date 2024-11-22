@@ -22,7 +22,7 @@ COPY src/tools/local-skr /app/src/tools/local-skr
 
 # Publish the application
 RUN dotnet publish -c Release --no-restore -o /app/publish /app/src/tools/local-skr/local-skr.csproj
-COPY --chmod=755 src/tools/local-skr/bootstrap.sh /app/publish/bootstrap.sh
+COPY src/tools/local-skr/bootstrap.sh /app/publish/bootstrap.sh
 
 # Use the official .NET Core runtime as the base image for the final stage
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime

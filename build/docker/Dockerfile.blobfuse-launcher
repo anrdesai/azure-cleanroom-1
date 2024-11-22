@@ -18,6 +18,7 @@ RUN cd azure-storage-fuse && ./build.sh
 
 # Build encryptor plugin.
 COPY src/blobfuse-launcher/encryptor azure-storage-fuse/encryptor
+RUN cd azure-storage-fuse/encryptor && go test -v ./...
 RUN cd azure-storage-fuse/encryptor && go build -buildmode=plugin -o encryptor.so
 
 FROM mcr.microsoft.com/mirror/docker/library/ubuntu:20.04
