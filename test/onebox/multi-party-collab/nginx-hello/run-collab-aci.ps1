@@ -23,12 +23,9 @@ if ($registry -eq "mcr") {
     $usingRegistry = "mcr"
     $registryArg = "mcr"
 }
-else {
-    $registryArg = "local"
-    if ($registryUrl -eq "") {
-        throw "-registryUrl must be specified for acr option."
-    }
+if ($registry -eq "acr") {
     $usingRegistry = $registryUrl
+    $registryArg = "acr"
 }
 
 rm -rf $PSScriptRoot/generated
