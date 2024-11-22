@@ -10,7 +10,7 @@ namespace CcfProvider;
 public static class ImageUtils
 {
     private const string McrRegistryUrl = "mcr.microsoft.com/cleanroom";
-    private const string McrTag = "1.0.12";
+    private const string McrTag = "2.0.0";
 
     private static SemaphoreSlim semaphore = new(1, 1);
 
