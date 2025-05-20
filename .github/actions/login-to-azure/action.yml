@@ -4,6 +4,11 @@ description: Login and Refresh Token
 runs:
   using: composite
   steps:
+    - name: Printing AZ Version
+      shell: bash
+      run: |
+        az version
+
     # The OIDC token expires every 5 minutes. Any login attempted post that will fail with
     # "ERROR: AADSTS700024: Client assertion is not within its valid time range."
     # To keep the OIDC token active, keep logging in every 4 minutes.
