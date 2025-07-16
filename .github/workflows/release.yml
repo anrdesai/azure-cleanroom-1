@@ -131,6 +131,7 @@ jobs:
           client-id: ${{ secrets.RELEASE_CLIENT_ID }}
           tenant-id: ${{ secrets.RELEASE_TENANT_ID }}
           subscription-id: ${{ secrets.RELEASE_SUBSCRIPTION_ID }}
+          needs-attestation: true
   
       - name: Release CGS constitution
         if: ${{ contains(inputs.release-type, 'cgs-constitution') }}
