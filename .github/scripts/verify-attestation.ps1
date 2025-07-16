@@ -27,8 +27,8 @@ function Verify-Attestation {
 
     $repo = "mcr.microsoft.com/azurecleanroom"
     if ($environment -eq "internal") {
-        az acr login -n cleanroomsidecars
-        $repo = "cleanroomsidecars.azurecr.io/internal/azurecleanroom"
+        az acr login -n anrdesaicr
+        $repo = "anrdesaicr.azurecr.io/internal/azurecleanroom"
     }
 
     $timeout = New-TimeSpan -Minutes 1
