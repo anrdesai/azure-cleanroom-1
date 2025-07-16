@@ -25,16 +25,16 @@ runs:
         Write-Host "Digest: $digest"
         echo "digest=$digest" >> $env:GITHUB_OUTPUT
 
-    - name: Generate artefact attestation (internal images)
-      if: ${{ inputs.environment == 'internal' }}
+    - name: Generate artefact attestation #(internal images)
+      # if: ${{ inputs.environment == 'internal' }}
       uses: actions/attest-build-provenance@v1
       with:
         subject-name: ${{ inputs.registry-name }}.azurecr.io/${{ inputs.environment }}/azurecleanroom/${{ inputs.name }}
         subject-digest: ${{ steps.get-digest.outputs.digest }}
 
-    - name: Generate artefact attestation (unlisted images)
-      if: ${{ inputs.environment == 'unlisted' }}
-      uses: actions/attest-build-provenance@v1
-      with:
-        subject-name: mcr.microsoft.com/azurecleanroom/${{ inputs.name }}
-        subject-digest: ${{ steps.get-digest.outputs.digest }}
+    # - name: Generate artefact attestation (unlisted images)
+    #   if: ${{ inputs.environment == 'unlisted' }}
+    #   uses: actions/attest-build-provenance@v1
+    #   with:
+    #     subject-name: mcr.microsoft.com/azurecleanroom/${{ inputs.name }}
+    #     subject-digest: ${{ steps.get-digest.outputs.digest }}

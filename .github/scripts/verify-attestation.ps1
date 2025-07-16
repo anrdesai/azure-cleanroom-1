@@ -25,7 +25,7 @@ function Verify-Attestation {
         $environment
     )
 
-    $repo = "mcr.microsoft.com/azurecleanroom"
+    $repo = "anrdesaicr.azurecr.io/unlisted/azurecleanroom"
     if ($environment -eq "internal") {
         az acr login -n anrdesaicr
         $repo = "anrdesaicr.azurecr.io/internal/azurecleanroom"
