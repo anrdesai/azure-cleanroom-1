@@ -8,12 +8,12 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
       - name: Get short commit hash
         id: get-short-commit-hash
         run: echo "tag=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
-
-      - name: Checkout code
-        uses: actions/checkout@v3
 
       - name: Add user to docker group
         run: sudo usermod -aG docker $USER
