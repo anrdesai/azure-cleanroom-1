@@ -16,5 +16,5 @@ runs:
     - uses: actions/upload-artifact@v4
       with:
         name: cleanroom-cli.whl
-        path: ./build/bin/azext_cleanroom/dist
+        path: ./build/bin/azext_cleanroom/dist/cleanroom-${{ inputs.tag }}-py3-none-any.whl
         overwrite: true
