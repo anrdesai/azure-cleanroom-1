@@ -21,7 +21,7 @@ jobs:
       - name: Build AZ CLI
         uses: ./.github/actions/build-azcli
         with:
-          tag: ${{ steps.get-short-commit-hash.outputs.tag }}
+          tag: 5.0.0
 
   simulate-release:
     runs-on: ubuntu-latest
