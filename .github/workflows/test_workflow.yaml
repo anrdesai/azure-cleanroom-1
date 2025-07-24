@@ -41,5 +41,5 @@ jobs:
 
       - name: Print path and ls
         run: |
-          echo "${{ steps.download-az-cli-artefact.outputs.path }}"
-          ls -la "${{ steps.download-az-cli-artefact.outputs.path }}"
+          echo "${{ steps.download-az-cli-artefact.outputs.download-path }}"
+          ls -la "${{ steps.download-az-cli-artefact.outputs.download-path }}"
