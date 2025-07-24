@@ -1,0 +1,45 @@
+name: Build and Test Workflow
+
+on:
+  workflow_dispatch:
+  push:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get short commit hash
+        id: get-short-commit-hash
+        run: echo "tag=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Add user to docker group
+        run: sudo usermod -aG docker $USER
+
+      - name: Build AZ CLI
+        uses: ./.github/actions/build-azcli
+        with:
+          tag: ${{ steps.get-short-commit-hash.outputs.tag }}
+
+  simulate-release:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: echo hello
+        run: echo "Hello, this is a simulated release step."
+
+      - name: Download AZ CLI whl
+        id: download-az-cli-artefact
+        uses: actions/download-artifact@v4
+        with:
+          name: cleanroom-cli.whl
+
+      - name: Print path and ls
+        run: |
+          echo "${{ steps.download-az-cli-artefact.outputs.path }}"
+          ls -la "${{ steps.download-az-cli-artefact.outputs.path }}"
