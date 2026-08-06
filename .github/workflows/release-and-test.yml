@@ -81,7 +81,7 @@ jobs:
         run: touch released-containers-internal.txt
 
       - name: Upload built-containers artefact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: released-containers-internal
           path: released-containers-internal.txt
@@ -395,7 +395,7 @@ jobs:
         id: pick
         shell: bash
         run: |
-          # These are the locations where DC4as_v5 SKU is available that we use in Flex Node tests.
+          # These are the locations where DC2as_v5 SKU is available that we use in Flex Node tests.
           # "westus" is removed as it is being used by another PR validation flow.
           locations=("westeurope" "northeurope" "germanywestcentral" "centralindia" "eastasia" "southeastasia" )
           index=$((RANDOM % ${#locations[@]}))
@@ -523,6 +523,46 @@ jobs:
           repo: ${{ secrets.registry-name || vars.RELEASE_ACR_NAME }}.azurecr.io/internal/azurecleanroom
           tag: ${{ inputs.tag || steps.get-short-commit-hash.outputs.tag }}
 
+  bvt-skr-validation:
+    runs-on: ["self-hosted", "1ES.Pool=azure-cleanroom-public", "1ES.JobId=bvt-skr-validation-${{ github.run_id }}-${{ github.run_attempt }}"]
+    needs: [build, release-to-test, pick-location]
+    environment: test
+    env:
+      AZURE_CLIENT_ID: ${{ vars.AZURE_CLIENT_ID }}
+      AZURE_TENANT_ID: ${{ vars.AZURE_TENANT_ID }}
+      AZURE_SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-tags: true
+          ref: ${{ inputs.tag }}
+
+      - name: Login to Azure
+        uses: ./.github/actions/login-to-azure
+        env:
+          CLIENT_ID: ${{ env.AZURE_CLIENT_ID }}
+          TENANT_ID: ${{ env.AZURE_TENANT_ID }}
+          SUBSCRIPTION_ID: ${{ env.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Run SKR validation setup (one-time, idempotent)
+        shell: pwsh
+        run: |
+          ./test/onebox/skr-validation/setup-resources.ps1 `
+            -resourceGroup "cl-skr-validation-eus-rg" `
+            -location "eastus"
+
+      - name: Run SKR validation test
+        shell: pwsh
+        run: |
+          ./test/onebox/skr-validation/run-skr-validation.ps1 `
+            -resourceGroup "cl-skr-validation-eus-rg" `
+            -location "${{ needs.pick-location.outputs.location }}"
+
   bvt-setup-env-aks:
     runs-on: ["self-hosted", "1ES.Pool=azure-cleanroom-public", "1ES.JobId=bvt-setup-env-aks-${{ github.run_id }}-${{ github.run_attempt }}"]
     needs: [build, release-to-test, pick-location]
@@ -563,7 +603,7 @@ jobs:
           outDir: ${{ github.workspace }}/test/onebox/workload-samples-aks/generated
 
       - name: Upload deployment artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: cleanroom-deployment-artifacts-aks
           path: ./test/onebox/workload-samples-aks/generated
@@ -615,7 +655,7 @@ jobs:
           location: ${{ needs.pick-location.outputs.location }}
 
       - name: Upload test results
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: big-data-analytics-results-aks
           path: ./test/onebox/workload-samples-aks/generated

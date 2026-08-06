@@ -63,6 +63,54 @@ jobs:
           repo: ${{ vars.ACR_URL }}
           tag: ${{ github.run_id }}
 
+  encrypted-storage-csi-driver:
+    runs-on: ["self-hosted", "1ES.Pool=azure-cleanroom-public", "1ES.JobId=encrypted-storage-csi-driver-${{ github.run_id }}-${{ github.run_attempt }}"]
+    environment: pr
+    env:
+      AZURE_CLIENT_ID: ${{ vars.AZURE_CLIENT_ID }}
+      AZURE_TENANT_ID: ${{ vars.AZURE_TENANT_ID }}
+      AZURE_SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+      RUN_ID: ${{ github.run_id }}
+      JOB_ID: ${{ github.job }}
+      RUN_ATTEMPT: ${{ github.run_attempt }}
+      USE_PREPROVISIONED_OIDC: "true"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - uses: ./.github/actions/setup-docker-on-data-disk
+
+      - name: Run encrypted storage test with CSI driver
+        uses: ./.github/actions/test-multi-party-collab/test-encrypted-storage-csi-driver
+        with:
+          repo: ${{ vars.ACR_URL }}
+          tag: ${{ github.run_id }}
+
+  encrypted-storage-blobfuse-proxy-sidecar:
+    runs-on: ["self-hosted", "1ES.Pool=azure-cleanroom-public", "1ES.JobId=encrypted-storage-blobfuse-proxy-sidecar-${{ github.run_id }}-${{ github.run_attempt }}"]
+    environment: pr
+    env:
+      AZURE_CLIENT_ID: ${{ vars.AZURE_CLIENT_ID }}
+      AZURE_TENANT_ID: ${{ vars.AZURE_TENANT_ID }}
+      AZURE_SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+      RUN_ID: ${{ github.run_id }}
+      JOB_ID: ${{ github.job }}
+      RUN_ATTEMPT: ${{ github.run_attempt }}
+      USE_PREPROVISIONED_OIDC: "true"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - uses: ./.github/actions/setup-docker-on-data-disk
+
+      - name: Run encrypted storage test with blobfuse-proxy sidecar
+        uses: ./.github/actions/test-multi-party-collab/test-encrypted-storage-blobfuse-proxy-sidecar
+        with:
+          repo: ${{ vars.ACR_URL }}
+          tag: ${{ github.run_id }}
+
   db-access:
     runs-on: ["self-hosted", "1ES.Pool=azure-cleanroom-public", "1ES.JobId=db-access-${{ github.run_id }}-${{ github.run_attempt }}"]
     environment: pr

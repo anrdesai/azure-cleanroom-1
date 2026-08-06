@@ -20,7 +20,7 @@ Azure Confidential VM.
 - Auto-generate a VM name and resource group based on your `$env:USER`
   (e.g. `cvm-admin` / `rg-cvm-admin`) value.
 - Download SSH keys from the `azcleanroompublickv` Key Vault.
-- Create an Azure Confidential VM (`Standard_DC4as_v5`, Ubuntu 22.04 CVM).
+- Create an Azure Confidential VM (`Standard_DC2as_v5`, Ubuntu 24.04 CVM).
 - Write deployment info to `generated/cvm-deploy.json`.
 
 ### 2. Run the attestation test

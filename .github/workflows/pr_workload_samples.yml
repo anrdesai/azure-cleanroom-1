@@ -24,7 +24,7 @@ jobs:
         id: pick
         shell: bash
         run: |
-          # These are the locations where DC4as_v5 SKU is available that we use in Flex Node tests.
+          # These are the locations where DC2as_v5 SKU is available that we use in Flex Node tests.
           # westus is removed as it is being used by another PR validation flow.
           locations=("westeurope" "northeurope" "germanywestcentral" "centralindia" "eastasia" "southeastasia" )
           index=$((RANDOM % ${#locations[@]}))
@@ -68,7 +68,7 @@ jobs:
           deploymentConfigDir: ${{ github.workspace }}/test/onebox/workload-samples/generated
 
       - name: Upload test results
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: big-data-analytics-results-virtual
           path: ./test/onebox/workload-samples/generated
@@ -121,9 +121,10 @@ jobs:
           tag: ${{ github.run_id }}
           location: centralindia
           deploymentConfigDir: ${{ github.workspace }}/test/onebox/workload-samples/generated
+          models: default
 
       - name: Upload test results
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: kserve-inferencing-results-virtual
           path: ./test/onebox/workload-samples/generated
@@ -165,7 +166,7 @@ jobs:
           outDir: ${{ github.workspace }}/test/onebox/workload-samples-aks/generated
 
       - name: Upload deployment artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: cleanroom-deployment-artifacts-aks
           path: ./test/onebox/workload-samples-aks/generated
@@ -206,7 +207,7 @@ jobs:
           deploymentConfigDir: ${{ github.workspace }}/test/onebox/workload-samples-aks/generated
 
       - name: Upload test results
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: big-data-analytics-results-aks
           path: ./test/onebox/workload-samples-aks/generated
@@ -257,10 +258,10 @@ jobs:
           tag: ${{ github.run_id }}
           location: ${{ needs.pick-location.outputs.location }}
           deploymentConfigDir: ${{ github.workspace }}/test/onebox/workload-samples-aks/generated
-          models: gpt2
+          models: default
 
       - name: Upload test results
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: kserve-inferencing-results-aks
           path: ./test/onebox/workload-samples-aks/generated
