@@ -10,79 +10,7 @@ on:
         default: "11.0.0"
 
 jobs:
-  stage-release-metadata:
-    runs-on: ubuntu-latest
-    environment: production
-    permissions:
-      id-token: write
-      contents: read
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          submodules: recursive
-          fetch-tags: true
-
-      - name: Setup ORAS
-        uses: oras-project/setup-oras@22ce207df3b08e061f537244349aac6ae1d214f6 # v1
-
-      - name: Login to Azure
-        uses: azure/login@7184910d9eb2b1c5e48f7073824a90609bb9b6d6 # v2.3.1
-        with:
-          client-id: ${{ secrets.RELEASE_CLIENT_ID }}
-          tenant-id: ${{ secrets.RELEASE_TENANT_ID }}
-          subscription-id: ${{ secrets.RELEASE_SUBSCRIPTION_ID }}
-
-      - name: Setup Helm
-        uses: azure/setup-helm@b9e51907a09c216f16ebe8536097933489208112 # v4.3.0
-
-      - name: Build and push release-metadata catalog
-        shell: pwsh
-        run: |
-          az acr login --name ${{ secrets.RELEASE_ACR_NAME }}
-          Install-Module -Name powershell-yaml -Force
-          $outDir = "${{ runner.temp }}/release-metadata"
-          $acrRepo = "${{ secrets.RELEASE_ACR_NAME }}.azurecr.io/unlisted/azurecleanroom"
-          ./build/build-release-metadata-chart.ps1 `
-            -repo mcr.microsoft.com/azurecleanroom `
-            -publishRepo mcr.microsoft.com/azurecleanroom `
-            -tag ${{ inputs.tag }} `
-            -outDir $outDir
-          helm push "$outDir/release-metadata-${{ inputs.tag }}.tgz" "oci://$acrRepo"
-          helm show values "oci://$acrRepo/release-metadata" `
-            --version ${{ inputs.tag }} | Out-Null
-
-      - name: Import release images into the fork ACR
-        shell: pwsh
-        run: |
-          $valuesPath = "${{ runner.temp }}/release-metadata/release-metadata/values.yaml"
-          $values = Get-Content $valuesPath -Raw | ConvertFrom-Yaml
-          $sourcePrefix = "mcr.microsoft.com/azurecleanroom/"
-          foreach ($imageRef in $values.images.Values) {
-            $imagePath = $imageRef.Substring($sourcePrefix.Length).Split("@")[0]
-            az acr import `
-              --name ${{ secrets.RELEASE_ACR_NAME }} `
-              --source $imageRef `
-              --image "unlisted/azurecleanroom/${imagePath}:${{ inputs.tag }}" `
-              --force
-          }
-
-  post-release-validation:
-    needs: stage-release-metadata
-    permissions:
-      id-token: write
-      contents: read
-      attestations: write
-      packages: write
-    uses: ./.github/workflows/release_verification_nightly.yml
-    with:
-      release-metadata-version: ${{ inputs.tag }}
-    secrets:
-      release-metadata-chart-url: >-
-        oci://${{ secrets.RELEASE_ACR_NAME }}.azurecr.io/unlisted/azurecleanroom/release-metadata
-
   publish-release-metadata:
-    needs: [stage-release-metadata, post-release-validation]
     runs-on: ubuntu-latest
     environment: production
     permissions:
