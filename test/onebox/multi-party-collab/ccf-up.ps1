@@ -31,8 +31,9 @@ $env:AZCLI_CCF_PROVIDER_CLIENT_IMAGE = "$repo/ccf/ccf-provider-client:$tag"
 $env:AZCLI_CCF_PROVIDER_CONTAINER_REGISTRY_URL = "$repo"
 
 if ($registry -eq "mcr") {
-    # Use the provider's default GitHub Pages Helm repository for released artifacts.
+    # Catalog URL and version are a pair: use neither override for published MCR artifacts.
     $env:AZCLI_CCF_PROVIDER_RELEASE_METADATA_CHART_URL = ""
+    $env:AZCLI_CCF_PROVIDER_RELEASE_VERSION = ""
 }
 else {
     # The release-metadata catalog is resolved by the ccf-provider-client CONTAINER via
@@ -53,12 +54,12 @@ else {
     }
     $env:AZCLI_CCF_PROVIDER_RELEASE_METADATA_CHART_URL =
         "oci://$ociEndpoint/release-metadata"
-}
 
-# The catalog is a Helm chart; its version derives from the image tag via the same helper the
-# publisher uses (Get-SemanticVersionFromTag), so consumer and producer agree.
-$catalogVersion = Get-SemanticVersionFromTag $tag
-$env:AZCLI_CCF_PROVIDER_RELEASE_VERSION = $catalogVersion
+    # The catalog is a Helm chart; its version derives from the image tag via the same helper the
+    # publisher uses (Get-SemanticVersionFromTag), so consumer and producer agree.
+    $catalogVersion = Get-SemanticVersionFromTag $tag
+    $env:AZCLI_CCF_PROVIDER_RELEASE_VERSION = $catalogVersion
+}
 
 $env:AZCLI_CGS_CLIENT_IMAGE = "$repo/cgs-client:$tag"
 $env:AZCLI_CGS_UI_IMAGE = "$repo/cgs-ui:$tag"
