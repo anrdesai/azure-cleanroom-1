@@ -23,6 +23,9 @@ jobs:
           submodules: recursive
           fetch-tags: true
 
+      - name: Setup ORAS
+        uses: oras-project/setup-oras@22ce207df3b08e061f537244349aac6ae1d214f6 # v1
+
       - name: Login to Azure
         uses: azure/login@7184910d9eb2b1c5e48f7073824a90609bb9b6d6 # v2.3.1
         with:
@@ -95,6 +98,12 @@ jobs:
         with:
           submodules: recursive
           fetch-tags: true
+
+      - name: Setup ORAS
+        uses: oras-project/setup-oras@22ce207df3b08e061f537244349aac6ae1d214f6 # v1
+
+      - name: Setup Helm
+        uses: azure/setup-helm@b9e51907a09c216f16ebe8536097933489208112 # v4.3.0
 
       - name: Create GitHub release
         shell: bash
